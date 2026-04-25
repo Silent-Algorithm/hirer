@@ -1,14 +1,234 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="src/styleout.css" rel="stylesheet">
+  <title>Tailwind Dark Mode Toggle</title>
+  <!-- <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+     tailwind.config = {
+      darkMode: 'class', //slss
+    } -->
+  </script>
+  <link rel="stylesheet" href="src/input.css">
+
+  <script defer src="script.js"></script>
+
 </head>
-<body>
-  <h1 class="text-3xl font-bold underline text-red-800">
-    Hello world!
-  </h1>
-  <div class=" border-2 border-solid h-[20px] w-[20px] rounded-full bg-red-700 border-red-500 "></div>
+<body class="overflow-x-hidden ">
+
+<header class=" sticky top-0 z-50">
+      <!--navBar-->
+  <nav id="navbar" class="flex items-center justify-between m-0 border-b-2 border-[#e5e5e5db] px-[4%] py-[2%] sticky top-0 w-full  bg-white">
+    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-blue-700">Hirer</h1>
+
+    <div class="w-[50%] flex relative items-center">
+       <!-- search svg icon -->
+      <svg class=" h-5 w-5 relative left-6 max-w-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"  fill="black"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+
+      <input class=" border border-[black] rounded-3xl pl-8 w-full outline-0 pb-1 min-[400px]:h-9 md:h-10 sm:rounded-3xl lg:h-11" type="search" placeholder="search">
+     
+    </div>
+    
+    <div class="flex relative items-center w-[20%] min-[600px]:w-[15%] min-[900px]:w-[11%] justify-between">
+    <!--profile-->
+      <img class=" rounded-full h-7 sm:h-8 sm:w-8 md:h-9 md:w-9 lg:w-10 lg:h-10" src="src/assets/profile.png" alt="profile">
+   <!--Theme-->
+      <img id="toggleTheme" class="h-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9" src="src/assets/theme.svg" alt="">
+    </div>
+  </nav>
+</header>
+
+
+
+  <main id="mainSection" class="-z-10 mt-5 text-sm ">
+
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+       <!-- a feed -->
+      <div class="relative border py-4  border-[#e5e5e5db] md:rounded-xl">
+      <!-- name and proffession -->
+      <div class="relative flex justify-between  pb-2 mx-[4%]">
+         <div class="flex gap-3">
+        <img src="src/assets/profile.png" alt="">
+        <div>
+          <p class="font-bold">Marcus Rivera</p>
+          <p><span>0.8km</span><span>.</span>Plumbing Expert</p>
+        </div>
+      </div>
+
+      <div class="h-6 w-6">
+        <img src="src/assets/hori.png" alt="">
+      </div>
+      </div>
+      <!-- media post -->
+      <img class="w-full max-h-[270px]" src="src/assets/person.png" alt="">
+
+      <div class="pt-3 flex justify-between mx-[4%]">
+        <div class="flex gap-4">
+          <!-- favorite icon:  -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
+
+<!-- message icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
+
+<!-- share icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/></svg>
+        </div>
+        
+        <!-- bookmark icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
+      </div>
+     </div>
+
+      <!-- a feed -->
+      <div class="relative border py-4  border-[#e5e5e5db] md:rounded-xl">
+      <!-- name and proffession -->
+      <div class="relative flex justify-between  pb-2 mx-[4%]">
+         <div class="flex gap-3">
+        <img src="src/assets/profile.png" alt="">
+        <div>
+          <p class="font-bold">Marcus Rivera</p>
+          <p><span>0.8km</span><span>.</span>Plumbing Expert</p>
+        </div>
+      </div>
+
+      <div class="h-6 w-6">
+        <img src="src/assets/hori.png" alt="">
+      </div>
+      </div>
+      <!-- media post -->
+      <img class="w-full max-h-[270px]" src="src/assets/person.png" alt="">
+
+      <div class="pt-3 flex justify-between mx-[4%]">
+        <div class="flex gap-4">
+          <!-- favorite icon:  -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
+
+<!-- message icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
+
+<!-- share icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/></svg>
+        </div>
+        
+        <!-- bookmark icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
+      </div>
+     </div>
+
+      <!-- a feed -->
+      <div class="relative border py-4  border-[#e5e5e5db] md:rounded-xl">
+      <!-- name and proffession -->
+      <div class="relative flex justify-between  pb-2 mx-[4%]">
+         <div class="flex gap-3">
+        <img src="src/assets/profile.png" alt="">
+        <div>
+          <p class="font-bold">Marcus Rivera</p>
+          <p><span>0.8km</span><span>.</span>Plumbing Expert</p>
+        </div>
+      </div>
+
+      <div class="h-6 w-6">
+        <img src="src/assets/hori.png" alt="">
+      </div>
+      </div>
+      <!-- media post -->
+      <img class="w-full max-h-[270px]" src="src/assets/person.png" alt="">
+
+      <div class="pt-3 flex justify-between mx-[4%]">
+        <div class="flex gap-4">
+          <!-- favorite icon:  -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
+
+<!-- message icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
+
+<!-- share icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/></svg>
+        </div>
+        
+        <!-- bookmark icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
+      </div>
+     </div>
+
+      <!-- a feed -->
+      <div class="relative border py-4  border-[#e5e5e5db] md:rounded-xl">
+      <!-- name and proffession -->
+      <div class="relative flex justify-between  pb-2 mx-[4%]">
+         <div class="flex gap-3">
+        <img src="src/assets/profile.png" alt="">
+        <div>
+          <p class="font-bold">Marcus Rivera</p>
+          <p><span>0.8km</span><span>.</span>Plumbing Expert</p>
+        </div>
+      </div>
+
+      <div class="h-6 w-6">
+        <img src="src/assets/hori.png" alt="">
+      </div>
+      </div>
+      <!-- media post -->
+      <img class="w-full max-h-[270px]" src="src/assets/person.png" alt="">
+
+      <div class="pt-3 flex justify-between mx-[4%]">
+        <div class="flex gap-4">
+          <!-- favorite icon:  -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
+
+<!-- message icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
+
+<!-- share icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/></svg>
+        </div>
+        
+        <!-- bookmark icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
+      </div>
+     </div>
+
+      <!-- a feed -->
+      <div class="relative border py-4  border-[#e5e5e5db] md:rounded-xl">
+      <!-- name and proffession -->
+      <div class="relative flex justify-between  pb-2 mx-[4%]">
+         <div class="flex gap-3">
+        <img src="src/assets/profile.png" alt="">
+        <div>
+          <p class="font-bold">Marcus Rivera</p>
+          <p><span>0.8km</span><span>.</span>Plumbing Expert</p>
+        </div>
+      </div>
+
+      <div class="h-6 w-6">
+        <img src="src/assets/hori.png" alt="">
+      </div>
+      </div>
+      <!-- media post -->
+      <img class="w-full max-h-[270px]" src="src/assets/person.png" alt="">
+
+      <div class="pt-3 flex justify-between mx-[4%]">
+        <div class="flex gap-4">
+          <!-- favorite icon:  -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
+
+<!-- message icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
+
+<!-- share icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/></svg>
+        </div>
+        
+        <!-- bookmark icon: -->
+<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
+      </div>
+     </div>
+
+     
+    </section>
+
+
+    
+  </main>
 </body>
 </html>
