@@ -1,31 +1,33 @@
+
+
 const toggleTheme = document.getElementById('toggleTheme');
 
-toggleTheme.addEventListener('click',() => {
-    document.documentElement.classList.toggle('dark')
-})
+if (toggleTheme) {
+    
+    toggleTheme.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark')
+        console.log(document.documentElement.classList.value)
+        localStorage.setItem("theme",document.documentElement.classList.value)
+    })
 
-const feet = document.getElementById('feet')
-const feetSection = document.getElementById('feetSection')
+    const feet = document.getElementById('feet')
+    const feetSection = document.getElementById('feetSection')
 
-for (let i = 0; i < 6; i++){
-    let div = document.createElement('div')
-div.innerHTML = feet.innerHTML
-    feetSection.appendChild(div)
+    for (let i = 0; i < 6; i++) {
+        let div = document.createElement('div')
+        div.innerHTML = feet.innerHTML
+        feetSection.appendChild(div)
+    }
+   
 }
     
-//scroll
+//toggle taskbar during scroll
    let lastScrollY = scrollY;
-console.log(lastScrollY)
     
 const footer = document.querySelector('footer')
 const footerSection = document.getElementById('footerSection')
 
 window.document.addEventListener('scroll', () => {
-    console.log('scrolling')
- 
-    console.log( typeof scrollY)
-
-    console.log(`S:${lastScrollY}, N:${scrollY}  =${scrollY - lastScrollY}`)
 
     if (scrollY - lastScrollY >150 || lastScrollY - scrollY >150) {
             
@@ -37,8 +39,48 @@ window.document.addEventListener('scroll', () => {
 })
 
 window.document.addEventListener('scrollend', () => {
-    console.log('scrolling')
     footer.style.display = 'flex'
     footerSection.style.display = 'flex'
 })
 
+//use the same theme in the home page accross all pages
+localStorage.getItem("theme") === 'dark' ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
+
+//liten to taskbar icon clicks
+
+const searchIcon = document.getElementById('searchIcon')
+const homeIcon = document.getElementById('homeIcon')
+const createIcon = document.getElementById('createIcon')
+
+searchIcon.addEventListener('click', (event) => {
+    event.preventDefault()
+    window.location.href = 'search.html'
+})
+
+homeIcon.addEventListener('click', (event) => {
+    event.preventDefault()
+    window.location.href = 'index.html'
+})
+
+createIcon.addEventListener('click', (event) => {
+    event.preventDefault()
+    window.location.href = 'create.html'
+})
+
+
+
+
+//track clicked taskbar icon
+
+const page = document.querySelector('title')
+console.log(page.id)
+
+const styleTaskbarIcon = () => {
+    const footerIcon = document.getElementById('footerIcon');
+    const footerIconText = document.getElementById('footerIconText');
+
+    footerIconText.style.color = '#155dfc'
+    footerIcon.style.fill = '#155dfc'
+}
+
+page.id === 'homeIconPage'?styleTaskbarIcon():page.id === 'searchIconPage'?styleTaskbarIcon():page.id === 'createIconPage'?styleTaskbarIcon(): ' '
