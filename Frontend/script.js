@@ -21,32 +21,51 @@ if (toggleTheme) {
    
 }
     
-//toggle taskbar during scroll
+//toggle taskbar during scroll and screen holds
    let lastScrollY = scrollY;
     
 const footer = document.querySelector('footer')
 const footerSection = document.getElementById('footerSection')
 
-window.document.addEventListener('scroll', () => {
+let timer
+const startHold = () => {
+    console.log("mouse down")
+    timer = setTimeout(() => {
+        footer.style.display = 'none'
+    },400)
+}
 
-    if (scrollY - lastScrollY >150 || lastScrollY - scrollY >150) {
-            
-       footer.style.display = 'none'
-    footerSection.display= 'none' 
-        lastScrollY = scrollY;
-    }
-    
-})
-
-window.document.addEventListener('scrollend', () => {
+const endHold = () => {
     footer.style.display = 'flex'
-    footerSection.style.display = 'flex'
-})
+    clearTimeout(timer)
+    console.log('mouser up')
+}
+window.document.addEventListener('pointerdown',startHold);
+window.document.addEventListener('pointerup',endHold)
+
+window.document.addEventListener('pointerleave', endHold)
+
+
+// window.document.addEventListener('scroll', () => {
+
+//     if (scrollY - lastScrollY >150 || lastScrollY - scrollY >150) {
+            
+//        footer.style.display = 'none'
+//     footerSection.display= 'none' 
+//         lastScrollY = scrollY;
+//     }
+    
+// })
+
+// window.document.addEventListener('scrollend', () => {
+//     footer.style.display = 'flex'
+//     footerSection.style.display = 'flex'
+// })
 
 //use the same theme in the home page accross all pages
 localStorage.getItem("theme") === 'dark' ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
 
-//liten to taskbar icon clicks
+//liten to taskbar's icon clicks
 
 const searchIcon = document.getElementById('searchIcon')
 const homeIcon = document.getElementById('homeIcon')
