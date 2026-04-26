@@ -7,17 +7,21 @@
     <script defer src="script.js"></script>
     <title id="searchIconPage">Hirer-Search</title>
 </head>
-<body class="overflow-x-hidden dark:bg-[#101010] dark:text-[#cbcbcb]">
+<body class="overflow-x-hidden dark:bg-[#101010] dark:text-[#cbcbcb] text-xs sm:text-base">
     
   <header class=" sticky top-0 z-50">
       <!--navBar-->
-  <nav id="navbar" class="dark:bg-[#101010] dark:text-[#cbcbcb] flex items-center justify-between m-0 border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-[1%] sticky top-0 w-full  bg-white"> 
+  <nav id="navbar" class="dark:bg-[#101010] dark:text-[#cbcbcb] flex items-center justify-between m-0 border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-3 sticky top-0 w-full  bg-white"> 
 
-    <div class="w-[75%] flex relative items-center pointer-fine:">
+    <div class="w-[75%] flex relative items-center cursor-pointer">
        <!-- search svg icon -->
-      <svg class=" -z-50 h-5 w-5 min-[400px]:w-7 min-[400px]:left-9 min-[400px]:h-7 relative left-6 max-w-full dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"  fill="black"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+   
 
-      <input name="search" class=" z-50 border dark:border-white border-[black] rounded-3xl pl-9 min-[400px]:pl-19  w-full outline-0 pb-1 pr-4 min-[400px]:h-9 md:h-10 sm:rounded-3xl lg:h-11" type="search" placeholder="search">
+      <input name="search" class=" z-50 border dark:border-white border-[black] rounded-3xl pl-9 min-[400px]:pl-12  w-full outline-0 pb-1 pr-4 h-9 md:h-10 sm:rounded-3xl lg:h-11 " type="search" placeholder="search workers, skills or services ">
+      
+      <div class=" absolute">
+           <svg class=" -z-50 h-5 w-5 min-[400px]:w-7 min-[400px]:left-3 min-[400px]:h-7  relative left-2 max-w-full dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"  fill="black"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+      </div>
      
     </div>
       
@@ -30,8 +34,59 @@
 
     <main class="">
         <section>
-
+          <div class="flex items-center justify-start gap-[3%] flex-wrap pt-5 mx-[4%] gap-y-4">
+            <button class="bg-blue-600 text-gray-300 border-0 rounded-2xl px-5 py-1  cursor-pointer">Nearby</button>
+            <button class="bg-blue-600 text-gray-300 border-0 rounded-2xl px-5 py-1  cursor-pointer ">Top Rated</button>
+            <button class="bg-blue-600 text-gray-300 border-0 rounded-2xl px-5 py-1  cursor-pointer ">Plumbing</button>
+            <button class="bg-blue-600 text-gray-300 border-0 rounded-2xl px-5 py-1  cursor-pointer ">Electrical</button>
+          </div>
         </section>
+
+        <section class=" m-[4%]">
+          <h2 class="font-black pb-3 text-base min-[468px]:text-xl md:text-2xl ">Recommend Nearby</h2>
+          <div id="recommendationSection" class="grid grid-cols-1  lg:grid-cols-2 gap-3">
+
+            <!-- Recommendation Cards -->
+             <div id="recommendationCard">
+                           <div  class="bg-gray-50 border border-[#e5e5e5db] p-4 flex justify-between w-full rounded-2xl dark:bg-[#101010] dark:border-[#2e2d2d] ">
+              <div class="gap-4 flex">
+                <img class=" h-18 w-30 min-[460px]:h-20 min-[460px]:w-35 rounded-2xl" src="src/assets/person.png" alt="">
+
+                <div>
+                  <h5 class=" font-bold">David Miller</h5>
+                  <p>Master Electrician</p>
+                  <p class="pt-2"> <span class="text-[#05d17cfe] font-bold">AVAILABLE TODAY</span><span class="pl-2 font-bold">.05Km away</span></p>
+                </div>
+              </div>
+              <div class="flex font-bold text-amber-300 justify-center h-fit items-center">
+                <!-- kid star icon: -->
+<svg class=" fill-amber-300" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" ><path d="m305-704 112-145q12-16 28.5-23.5T480-880q18 0 34.5 7.5T543-849l112 145 170 57q26 8 41 29.5t15 47.5q0 12-3.5 24T866-523L756-367l4 164q1 35-23 59t-56 24q-2 0-22-3l-179-50-179 50q-5 2-11 2.5t-11 .5q-32 0-56-24t-23-59l4-165L95-523q-8-11-11.5-23T80-570q0-25 14.5-46.5T135-647l170-57Zm49 69-194 64 124 179-4 191 200-55 200 56-4-192 124-177-194-66-126-165-126 165Zm126 135Z"/></svg>
+<p>4.8</p>
+              </div>
+
+             </div>
+             </div>
+          </div>
+        </section>
+
+          <section class=" m-[4%]">
+          <h2 class="font-black pb-6 text-base min-[468px]:text-xl md:text-2xl ">Popular Categories</h2>
+          <div id="categorySection" class="grid grid-cols-2  lg:grid-cols-3 gap-3">
+
+            <!-- populater category Cards -->
+          <div id="categoryCard">
+            <div  class="bg-gray-50 border border-[#e5e5e5db] p-4 flex justify-between w-full rounded-2xl dark:bg-[#101010] dark:border-[#2e2d2d] ">
+              <div class="gap-4 flex flex-col items-center justify-center w-full">
+                <img class=" h-18 w-30 min-[460px]:h-20 min-[460px]:w-35 rounded-2xl" src="src/assets/person.png" alt="">
+
+                  <h5 class=" font-bold">Electrical</h5>
+              </div>
+             </div>
+             </div>
+
+          </div>
+        </section>
+
     </main>
 
 
