@@ -48,6 +48,7 @@ window.document.addEventListener('pointerleave', endHold)
 localStorage.getItem("theme") === 'dark' ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
 
 //liten to taskbar's icon clicks
+//liten to taskbar's icon clicks
 
 const searchIcon = document.getElementById('searchIcon')
 const homeIcon = document.getElementById('homeIcon')
