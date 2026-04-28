@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 *.mp3
 *.mp4
+
+__pycache__/
+*.pyc
+*.db

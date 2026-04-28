@@ -43,7 +43,7 @@ class Post(Base):
     id = Column(String, primary_key=True, default=generate_uuid)
 
     user_id = Column(String, ForeignKey("users.id"))
-    type = Column(String)  # social | service
+    type = Column(String)
 
     content = Column(Text)
     image_url = Column(Text)
