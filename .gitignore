@@ -1,1 +1,4 @@
 backend/hirer.db
+__pycache__/
+*.pyc
+*.db
