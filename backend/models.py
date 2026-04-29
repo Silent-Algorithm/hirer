@@ -24,6 +24,9 @@ class User(Base):
     latitude = Column(Float)
     longitude = Column(Float)
 
+    skills = Column(Text)
+    availability = Column(String)
+
     whatsapp_link = Column(Text)
     is_verified = Column(Boolean, default=False)
 
