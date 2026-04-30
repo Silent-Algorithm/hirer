@@ -106,3 +106,29 @@ if (recommendationCard || categoryCard) {
 
     }
 }
+
+const locationPermission = document.getElementById('locationPermission')
+
+if (locationPermission) {
+    locationPermission.addEventListener('change', (event) => {
+        if (event.target.checked) {
+            console.log('location access granted')  
+            
+            let mypromise = new Promise((resolve, rejected) => {
+    navigator.geolocation.getCurrentPosition(resolve, rejected)
+})
+
+mypromise.then(status => {
+    const usersLastitude = status.coords.latitude
+    const usersLongitude = status.coords.longitude
+}).catch(error=>{
+    console.warn(error.message)
+})
+        }
+        else {
+            console.log('location access denied')
+        }
+        
+    })
+}
+
