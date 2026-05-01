@@ -1,51 +1,19 @@
-from fastapi import FastAPI
-from database import engine, Base
-from auth import get_current_user
-import schemas
-import models
-import schemas
-
-from auth import get_current_user
-from database import get_db, engine, Base
-
-import models
-
-app = FastAPI()
-
-Base.metadata.create_all(bind=engine)
-
-
-@app.get("/")
-def root():
-    pass
-
-@app.post("/upload")
-async def upload_file(file: UploadFile = File(...)):
-    ext = file.filename.split(".")[-1]
-    filename = f"{uuid.uuid4()}.{ext}"
-    filepath = os.path.join("uploads", filename)
-    with open(filepath, "wb") as buffer:
-        buffer.write(await file.read())
-    return {"image_url": f"/static/{filename}"}
-
-def _root():
-    return {"message": "Backend Running"}
-
-from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy.orm import Session
-
-import models, schemas
-from database import engine, get_db, Base
-from utils import hash_password, verify_password, create_access_token
-
 import os
 import uuid
 import math
 from typing import Optional, List
-from fastapi import UploadFile, File
+
+from fastapi import FastAPI, Depends, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import or_
+from sqlalchemy.orm import Session
+
+import models
+import schemas
+from database import engine, get_db, Base
+from auth import get_current_user
+from utils import hash_password, verify_password, create_access_token
 
 os.makedirs("uploads", exist_ok=True)
 
@@ -60,6 +28,19 @@ app.add_middleware(
 )
 
 app.mount("/static", StaticFiles(directory="uploads"), name="static")
+
+@app.get("/")
+def root():
+    return {"message": "Backend Running"}
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    ext = file.filename.split(".")[-1]
+    filename = f"{uuid.uuid4()}.{ext}"
+    filepath = os.path.join("uploads", filename)
+    with open(filepath, "wb") as buffer:
+        buffer.write(await file.read())
+    return {"image_url": f"/static/{filename}"}
 
 Base.metadata.create_all(bind=engine)
 @app.post("/posts", response_model=schemas.PostResponse)

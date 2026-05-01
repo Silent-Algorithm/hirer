@@ -41,7 +41,9 @@ class UserPublic(BaseModel):
     is_verified: bool
 
     class Config:
+        # from_attributes = True
         orm_mode = True
+
 
 class UserPrivate(UserPublic):
     email: str
@@ -60,7 +62,7 @@ class CategoryResponse(BaseModel):
     id: str
     name: str
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ServiceDetailsResponse(BaseModel):
     id: str
@@ -69,7 +71,7 @@ class ServiceDetailsResponse(BaseModel):
     price_max: Optional[int] = None
     availability: Optional[str] = None
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class PostResponse(BaseModel):
     id: str
@@ -79,14 +81,14 @@ class PostResponse(BaseModel):
     user: UserPublic
     service: Optional[ServiceDetailsResponse] = None
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class FavoriteResponse(BaseModel):
     id: str
     favorite_user_id: str
     user_id: str
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class RatingCreate(BaseModel):
     rating: int
