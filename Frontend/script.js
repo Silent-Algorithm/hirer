@@ -53,6 +53,7 @@ localStorage.getItem("theme") === 'dark' ? document.documentElement.classList.ad
 const searchIcon = document.getElementById('searchIcon')
 const homeIcon = document.getElementById('homeIcon')
 const createIcon = document.getElementById('createIcon')
+const profileIcon = document.getElementById('profileIcon');
 
 searchIcon.addEventListener('click', (event) => {
     event.preventDefault()
@@ -68,6 +69,12 @@ createIcon.addEventListener('click', (event) => {
     event.preventDefault()
     window.location.href = 'create.html'
 })
+
+profileIcon.addEventListener('click', (event) => {
+    event.preventDefault()
+    window.location.href = 'profile.html'
+})
+
 
 
 
@@ -85,7 +92,7 @@ const styleTaskbarIcon = () => {
     footerIcon.style.fill = '#155dfc'
 }
 
-page.id === 'homeIconPage'?styleTaskbarIcon():page.id === 'searchIconPage'?styleTaskbarIcon():page.id === 'createIconPage'?styleTaskbarIcon(): ' '
+page.id === 'homeIconPage'?styleTaskbarIcon():page.id === 'searchIconPage'?styleTaskbarIcon():page.id === 'createIconPage'?styleTaskbarIcon():page.id === 'profileIconPage'?styleTaskbarIcon():' '
 
 //render Search page category and recommendation cards
 
