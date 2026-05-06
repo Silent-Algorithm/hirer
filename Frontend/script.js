@@ -5,11 +5,12 @@ if (toggleTheme) {
     //toggle dark and ligh theme
     toggleTheme.addEventListener('click', () => {
         document.documentElement.classList.toggle('dark')
-        console.log(document.documentElement.classList.value)
         localStorage.setItem("theme",document.documentElement.classList.value)
     })
+}
 //render post
-    const feet = document.getElementById('feet')
+const feet = document.getElementById('feet')
+if (feet) {
     const feetSection = document.getElementById('feetSection')
 
     for (let i = 0; i < 6; i++) {
@@ -17,7 +18,6 @@ if (toggleTheme) {
         div.innerHTML = feet.innerHTML
         feetSection.appendChild(div)
     }
-   alert('h')
 }
 
     
