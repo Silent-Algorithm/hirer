@@ -17,7 +17,7 @@ if (toggleTheme) {
         div.innerHTML = feet.innerHTML
         feetSection.appendChild(div)
     }
-   
+   alert('h')
 }
 
     
@@ -28,6 +28,7 @@ const footer = document.querySelector('footer')
 const footerSection = document.getElementById('footerSection')
 
 let timer
+if(footer){
 const startHold = () => {
     timer = setTimeout(() => {
         footer.style.display = 'none'
@@ -55,29 +56,29 @@ const homeIcon = document.getElementById('homeIcon')
 const createIcon = document.getElementById('createIcon')
 const profileIcon = document.getElementById('profileIcon');
 
-searchIcon.addEventListener('click', (event) => {
-    event.preventDefault()
-    window.location.href = 'search.html'
-})
+    searchIcon.addEventListener('click', (event) => {
+        event.preventDefault()
+        window.location.href = 'search.html'
+    })
 
-homeIcon.addEventListener('click', (event) => {
-    event.preventDefault()
-    window.location.href = 'index.html'
-})
+    homeIcon.addEventListener('click', (event) => {
+        event.preventDefault()
+        window.location.href = 'index.html'
+    })
 
-createIcon.addEventListener('click', (event) => {
-    event.preventDefault()
-    window.location.href = 'create.html'
-})
+    createIcon.addEventListener('click', (event) => {
+        event.preventDefault()
+        window.location.href = 'create.html'
+    })
 
-profileIcon.addEventListener('click', (event) => {
-    event.preventDefault()
-    window.location.href = 'profile.html'
-})
-
-
+    profileIcon.addEventListener('click', (event) => {
+        event.preventDefault()
+        window.location.href = 'profile.html'
+    })
 
 
+
+alert('he')
 
 //track clicked taskbar icon
 
@@ -93,7 +94,7 @@ const styleTaskbarIcon = () => {
 }
 
 page.id === 'homeIconPage'?styleTaskbarIcon():page.id === 'searchIconPage'?styleTaskbarIcon():page.id === 'createIconPage'?styleTaskbarIcon():page.id === 'profileIconPage'?styleTaskbarIcon():' '
-
+}
 //render Search page category and recommendation cards
 
 const recommendationCard = document.getElementById('recommendationCard')
