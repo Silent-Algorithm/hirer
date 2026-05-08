@@ -20,6 +20,12 @@ if (feet) {
     }
 }
 
+//use the same theme in the home page accross all pages
+    localStorage.getItem("theme") === 'dark' ? document.documentElement.classList.remove('dark') : document.documentElement.classList.add('dark');
+ 
+
+    console.log(localStorage.getItem('theme'))
+
     
 //toggle taskbar during scroll and screen holds
    let lastScrollY = scrollY;
@@ -45,9 +51,6 @@ window.document.addEventListener('pointerup',endHold)
 window.document.addEventListener('pointerleave', endHold)
 
 
-//use the same theme in the home page accross all pages
-localStorage.getItem("theme") === 'dark' ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
-
 //liten to taskbar's icon clicks
 //liten to taskbar's icon clicks
 
@@ -63,7 +66,7 @@ const profileIcon = document.getElementById('profileIcon');
 
     homeIcon.addEventListener('click', (event) => {
         event.preventDefault()
-        window.location.href = 'index.html'
+        window.location.href = 'home.html'
     })
 
     createIcon.addEventListener('click', (event) => {
@@ -77,8 +80,6 @@ const profileIcon = document.getElementById('profileIcon');
     })
 
 
-
-alert('he')
 
 //track clicked taskbar icon
 
