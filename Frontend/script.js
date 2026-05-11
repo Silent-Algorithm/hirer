@@ -57,7 +57,8 @@ window.document.addEventListener('pointerleave', endHold)
 const searchIcon = document.getElementById('searchIcon')
 const homeIcon = document.getElementById('homeIcon')
 const createIcon = document.getElementById('createIcon')
-const profileIcon = document.getElementById('profileIcon');
+    const profileIcon = document.getElementById('profileIcon');
+    const favoriteIcon = document.getElementById('favoriteIcon')
 
     searchIcon.addEventListener('click', (event) => {
         event.preventDefault()
@@ -79,6 +80,11 @@ const profileIcon = document.getElementById('profileIcon');
         window.location.href = 'profile.html'
     })
 
+        favoriteIcon.addEventListener('click', (event) => {
+        event.preventDefault()
+        window.location.href = 'favorite.html'
+    })
+
 
 
 //track clicked taskbar icon
@@ -94,7 +100,7 @@ const styleTaskbarIcon = () => {
     footerIcon.style.fill = '#155dfc'
 }
 
-page.id === 'homeIconPage'?styleTaskbarIcon():page.id === 'searchIconPage'?styleTaskbarIcon():page.id === 'createIconPage'?styleTaskbarIcon():page.id === 'profileIconPage'?styleTaskbarIcon():' '
+page.id === 'homeIconPage'?styleTaskbarIcon():page.id === 'searchIconPage'?styleTaskbarIcon():page.id === 'createIconPage'?styleTaskbarIcon():page.id === 'profileIconPage'?styleTaskbarIcon():page.id = 'favoriteIconPage'?styleTaskbarIcon():' '
 }
 //render Search page category and recommendation cards
 
