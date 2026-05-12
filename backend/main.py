@@ -8,12 +8,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 
 import models
 import schemas
 from database import engine, get_db, Base
 from auth import get_current_user
 from utils import hash_password, verify_password, create_access_token
+from typing import Optional, List
+
 
 os.makedirs("uploads", exist_ok=True)
 
@@ -107,26 +110,29 @@ def get_posts(
 
 @app.post("/auth/register", response_model=schemas.TokenResponse)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    existing = db.query(models.User).filter(models.User.email == user.email).first()
+    try:
+        existing = db.query(models.User).filter(models.User.email == user.email).first()
 
-    if existing:
-        raise HTTPException(status_code=400, detail="Email already exists")
+        if existing:
+            raise HTTPException(status_code=400, detail="Email already exists")
 
-    new_user = models.User(
-        name=user.name,
-        email=user.email,
-        password_hash=hash_password(user.password)
-    )
+        new_user = models.User(
+            name=user.name,
+            email=user.email,
+            password_hash=hash_password(user.password)
+        )
 
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
 
-    token = create_access_token(new_user.id)
+        token = create_access_token(new_user.id)
 
-    return {
-        "access_token": token
-    }
+        return {"access_token": token}
+
+    except Exception as e:
+        print("REAL ERROR:", e)
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/auth/login", response_model=schemas.TokenResponse)
 def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
@@ -143,9 +149,6 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     return {
         "access_token": token
     }
-
-from typing import Optional, List
-from sqlalchemy import or_
 
 @app.get("/users/search", response_model=List[schemas.UserPublic])
 def search_users(
