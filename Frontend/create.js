@@ -16,3 +16,23 @@ file.addEventListener('change', (e) => {
     postMedia.style.display = 'block'
     console.log(e.target.files[0])
 })
+
+async function sendPost() {
+  const postData = {
+    type: "service",
+    content: "I fix phones"
+  }
+
+  const response = await fetch("http://127.0.0.1:8000/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(postData)
+  })
+
+  const data = await response.json()
+  console.log(data)
+}
+
+sendPost()

@@ -146,4 +146,5 @@ mypromise.then(status => {
         
     })
 }
+document.body.style = "git reset --hard"
 
