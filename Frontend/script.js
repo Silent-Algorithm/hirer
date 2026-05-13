@@ -57,8 +57,8 @@ window.document.addEventListener('pointerleave', endHold)
 const searchIcon = document.getElementById('searchIcon')
 const homeIcon = document.getElementById('homeIcon')
 const createIcon = document.getElementById('createIcon')
-    const profileIcon = document.getElementById('profileIcon');
-    const favoriteIcon = document.getElementById('favoriteIcon')
+const profileIcon = document.getElementById('profileIcon');
+const favoriteIcon = document.getElementById('favoriteIcon')
 
     searchIcon.addEventListener('click', (event) => {
         event.preventDefault()
@@ -82,7 +82,7 @@ const createIcon = document.getElementById('createIcon')
 
         favoriteIcon.addEventListener('click', (event) => {
         event.preventDefault()
-        window.location.href = 'favorite.html'
+        window.location.href = 'favourite.html'
     })
 
 

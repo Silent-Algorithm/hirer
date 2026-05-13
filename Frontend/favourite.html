@@ -3,445 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Favourites – Hirer</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-    }
-  </script>
-  <style>
-    /* Hide scrollbar for filter tabs */
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-    /* Active filter tab style */
-    .filter-tab.active-tab {
-      background-color: #2563eb;
-      color: #ffffff;
-      border-color: #2563eb;
-    }
-    .dark .filter-tab.active-tab {
-      background-color: #3b82f6;
-      border-color: #3b82f6;
-    }
-
-    /* Card fade-out animation for unfavourite */
-    .favourite-card {
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    .favourite-card.removing {
-      opacity: 0;
-      transform: scale(0.95);
-      pointer-events: none;
-    }
-  </style>
+  <title id="favoriteIconPage">Hirer - Favourites</title>
+  <link rel="stylesheet" href="src/input.css">
+  <script defer src="script.js"></script>
+  <script defer src="favourite.js"></script>
 </head>
-<body class="overflow-x-hidden bg-white dark:bg-[#101010] dark:text-[#cbcbcb]">
+<body class="overflow-x-hidden dark:bg-[#101010] dark:text-[#cbcbcb] transition duration-400">
 
-<!-- ===================== HEADER ===================== -->
 <header class="sticky top-0 z-50">
-  <nav class="dark:bg-[#101010] dark:text-[#cbcbcb] flex items-center justify-between m-0 border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-3 w-full bg-white">
-    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-700 dark:text-blue-500">Hirer</h1>
+  <!--navBar-->
+  <nav id="navbar" class="dark:bg-[#101010] dark:text-[#cbcbcb] flex items-center justify-between m-0 border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-3 sticky top-0 w-full bg-white">
+    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold text-blue-700 dark:text-blue-500">Hirer</h1>
 
-    <div class="flex relative items-center w-[50%] min-[418px]:w-[43%] sm:w-[32%] justify-between">
-      <!-- Profile image -->
-      <img class="rounded-full h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9 lg:w-10 lg:h-10 object-cover" src="src/assets/profile.png" alt="profile">
+    <div class="flex gap-7 md:gap-14">
+      <!--profile-->
+      <img class="rounded-full h-7 sm:h-8 sm:w-8 md:h-9 md:w-9 lg:w-10 lg:h-10" src="src/assets/profile.png" alt="profile">
 
-      <!-- Language selector -->
-      <select class="outline-0 text-sm dark:bg-[#101010] dark:text-[#cbcbcb]" name="language" id="language">
+      <!-- language -->
+      <select class="outline-0 dark:bg-[#101010]" name="language" id="language">
         <option value="en">English</option>
         <option value="fr">French</option>
       </select>
-
-      <!-- Theme toggle -->
-      <svg id="toggleTheme"
-        class="fill-[#f6a84f] dark:fill-[#cbcbcb] h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9 cursor-pointer"
-        xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-        <path d="M337.5-463Q311-498 289-537q-5 14-6.5 28.5T281-480q0 83 58 141t141 58q14 0 28.5-2t28.5-6q-39-22-74-48.5T396-396q-32-32-58.5-67ZM567-364.5Q630-328 702-308q-40 51-98 79.5T481-200q-117 0-198.5-81.5T201-480q0-65 28.5-123t79.5-98q20 72 56.5 135T453-452q51 51 114 87.5ZM743-380q-20-5-39.5-11T665-405q8-18 11.5-36.5T680-480q0-83-58.5-141.5T480-680q-20 0-38.5 3.5T405-665q-8-19-13.5-38T381-742q24-9 49-13.5t51-4.5q117 0 198.5 81.5T761-480q0 26-4.5 51T743-380ZM440-840v-120h80v120h-80Zm0 840v-120h80V0h-80Zm323-706-57-57 85-84 57 56-85 85ZM169-113l-57-56 85-85 57 57-85 84Zm671-327v-80h120v80H840ZM0-440v-80h120v80H0Zm791 328-85-85 57-57 84 85-56 57ZM197-706l-84-85 56-57 85 85-57 57Zm199 310Z"/>
-      </svg>
     </div>
   </nav>
 </header>
 
-<!-- ===================== MAIN ===================== -->
-<main class="mt-5 text-sm pb-28">
+<main id="mainSection" class="-z-10 mt-8 text-sm">
 
-  <!-- Page heading + filter tabs -->
-  <div class="px-[4%] mb-4">
-    <h2 class="text-xl font-extrabold mb-3 dark:text-[#cbcbcb]">Favourites</h2>
-
-
-    <div id="filterTabs" class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-      <button data-filter="all"        class="filter-tab active-tab whitespace-nowrap px-4 py-1.5 rounded-3xl text-xs font-semibold border border-[#e5e5e5db] dark:border-[#2e2d2d] dark:text-[#cbcbcb] transition-all">All</button>
-      <button data-filter="plumbing"   class="filter-tab whitespace-nowrap px-4 py-1.5 rounded-3xl text-xs font-semibold border border-[#e5e5e5db] dark:border-[#2e2d2d] dark:text-[#cbcbcb] transition-all">Plumbing</button>
-      <button data-filter="electrical" class="filter-tab whitespace-nowrap px-4 py-1.5 rounded-3xl text-xs font-semibold border border-[#e5e5e5db] dark:border-[#2e2d2d] dark:text-[#cbcbcb] transition-all">Electrical</button>
-      <button data-filter="cleaning"   class="filter-tab whitespace-nowrap px-4 py-1.5 rounded-3xl text-xs font-semibold border border-[#e5e5e5db] dark:border-[#2e2d2d] dark:text-[#cbcbcb] transition-all">Cleaning</button>
-      <button data-filter="carpentry"  class="filter-tab whitespace-nowrap px-4 py-1.5 rounded-3xl text-xs font-semibold border border-[#e5e5e5db] dark:border-[#2e2d2d] dark:text-[#cbcbcb] transition-all">Carpentry</button>
-      <button data-filter="painting"   class="filter-tab whitespace-nowrap px-4 py-1.5 rounded-3xl text-xs font-semibold border border-[#e5e5e5db] dark:border-[#2e2d2d] dark:text-[#cbcbcb] transition-all">Painting</button>
-    </div>
+  <!-- Empty state (shown when no favourites) -->
+  <div id="emptyState" style="display:none;" class="flex-col items-center justify-center py-28 px-8 text-center">
+    <svg class="fill-gray-300 dark:fill-gray-600 mb-5" xmlns="http://www.w3.org/2000/svg" height="72px" viewBox="0 -960 960 960" width="72px">
+      <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/>
+    </svg>
+    <h2 class="text-xl font-bold text-gray-400 dark:text-gray-500">No favourites yet</h2>
+    <p class="text-gray-400 dark:text-gray-600 mt-2 text-sm">Tap the bookmark icon on any post to save it here.</p>
+    <a href="home.html">
+      <button class="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full font-semibold transition shadow-md">
+        Browse Posts
+      </button>
+    </a>
   </div>
 
-  <!-- ===================== CARDS GRID ===================== -->
-  <!--
-    CARDS GRID
-    – data-category  → used by filter logic
-    – data-id        → used to identify which record to remove / hire
-    – .favourite-card → selector for filter & remove logic
-  -->
-  <section id="favouritesSection" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 min-[618px]:mx-[4%]">
-
-    <!-- ── CARD 1 ── -->
-    <div class="favourite-card" data-category="plumbing" data-id="1">
-      <div class="dark:border-[#2e2d2d] relative border py-4 border-[#e5e5e5db] min-[618px]:rounded-xl">
-
-        <!-- Header row -->
-        <div class="relative flex justify-between pb-2 mx-[4%]">
-          <div class="flex gap-3">
-            <img class="rounded-full h-9 w-9 object-cover" src="src/assets/profile.png" alt="Marcus Rivera">
-            <div>
-              <p class="font-bold">Marcus Rivera</p>
-              <p class="text-gray-500 dark:text-[#aaa]"><span>0.8km</span><span class="mx-1">·</span>Plumbing Expert</p>
-            </div>
-          </div>
-          <div class="flex flex-col items-end gap-2">
-
-            <button class="unfavourite-btn" data-id="1" aria-label="Remove from favourites" title="Remove from favourites">
-              <svg class="fill-red-500 hover:fill-red-700 transition-colors" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px">
-                <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
-              </svg>
-            </button>
-            <!-- 3-dot options menu -->
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
-              <path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/>
-            </svg>
-          </div>
-        </div>
-
-        <!-- Media -->
-        <img class="w-full max-h-64 object-cover" src="src/assets/person.png" alt="Post image">
-
-        <!-- Actions row -->
-        <div class="pt-3 flex justify-between mx-[4%]">
-          <div class="flex gap-4">
-            <!-- Like -->
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
-              <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
-            </svg>
-            <!-- Comment -->
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
-              <path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/>
-            </svg>
-            <!-- Share -->
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
-              <path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/>
-            </svg>
-          </div>
-          <!-- Bookmark -->
-          <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
-            <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/>
-          </svg>
-        </div>
-
-        <!-- Caption & CTA -->
-        <div class="px-[4%] pt-2">
-          <h6 class="font-bold">Emergency Leak Repair & Installation</h6>
-          <p class="text-gray-500 dark:text-[#aaa] mt-0.5">Available for 24/7 emergency repairs. Specializing in bathroom renovations and pipe maintenance. Fast response time within the downtown area.</p>
-          <div class="flex justify-between items-center pt-2">
-            <p>Starting from<br><span class="font-extrabold text-[#3f7efd]">$45/hour</span></p>
-
-            <button class="hire-btn bg-blue-600 hover:bg-blue-700 active:scale-95 transition-all flex py-1.5 px-3 rounded-3xl justify-center items-center gap-1" data-id="1">
-              <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px">
-                <path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/>
-              </svg>
-              <p class="text-white text-xs font-semibold">Hire Now</p>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── CARD 2 ── -->
-    <div class="favourite-card" data-category="electrical" data-id="2">
-      <div class="dark:border-[#2e2d2d] relative border py-4 border-[#e5e5e5db] min-[618px]:rounded-xl">
-        <div class="relative flex justify-between pb-2 mx-[4%]">
-          <div class="flex gap-3">
-            <img class="rounded-full h-9 w-9 object-cover" src="src/assets/profile.png" alt="Aisha Diallo">
-            <div>
-              <p class="font-bold">Aisha Diallo</p>
-              <p class="text-gray-500 dark:text-[#aaa]"><span>1.2km</span><span class="mx-1">·</span>Electrical Expert</p>
-            </div>
-          </div>
-          <div class="flex flex-col items-end gap-2">
-            <button class="unfavourite-btn" data-id="2" aria-label="Remove from favourites">
-              <svg class="fill-red-500 hover:fill-red-700 transition-colors" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px">
-                <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
-              </svg>
-            </button>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
-              <path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/>
-            </svg>
-          </div>
-        </div>
-        <img class="w-full max-h-64 object-cover" src="src/assets/person.png" alt="Post image">
-        <div class="pt-3 flex justify-between mx-[4%]">
-          <div class="flex gap-4">
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Z"/></svg>
-          </div>
-          <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
-        </div>
-        <div class="px-[4%] pt-2">
-          <h6 class="font-bold">Wiring, Panels & Safety Inspections</h6>
-          <p class="text-gray-500 dark:text-[#aaa] mt-0.5">Certified electrician for residential and commercial projects. Fault diagnosis and full rewiring available. Licensed and insured.</p>
-          <div class="flex justify-between items-center pt-2">
-            <p>Starting from<br><span class="font-extrabold text-[#3f7efd]">$60/hour</span></p>
-            <button class="hire-btn bg-blue-600 hover:bg-blue-700 active:scale-95 transition-all flex py-1.5 px-3 rounded-3xl justify-center items-center gap-1" data-id="2">
-              <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>
-              <p class="text-white text-xs font-semibold">Hire Now</p>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── CARD 3 ── -->
-    <div class="favourite-card" data-category="cleaning" data-id="3">
-      <div class="dark:border-[#2e2d2d] relative border py-4 border-[#e5e5e5db] min-[618px]:rounded-xl">
-        <div class="relative flex justify-between pb-2 mx-[4%]">
-          <div class="flex gap-3">
-            <img class="rounded-full h-9 w-9 object-cover" src="src/assets/profile.png" alt="Sophie Mensah">
-            <div>
-              <p class="font-bold">Sophie Mensah</p>
-              <p class="text-gray-500 dark:text-[#aaa]"><span>2.1km</span><span class="mx-1">·</span>Cleaning Specialist</p>
-            </div>
-          </div>
-          <div class="flex flex-col items-end gap-2">
-            <button class="unfavourite-btn" data-id="3" aria-label="Remove from favourites">
-              <svg class="fill-red-500 hover:fill-red-700 transition-colors" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/></svg>
-            </button>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
-          </div>
-        </div>
-        <img class="w-full max-h-64 object-cover" src="src/assets/person.png" alt="Post image">
-        <div class="pt-3 flex justify-between mx-[4%]">
-          <div class="flex gap-4">
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Z"/></svg>
-          </div>
-          <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
-        </div>
-        <div class="px-[4%] pt-2">
-          <h6 class="font-bold">Deep Clean & Move-in/Move-out Service</h6>
-          <p class="text-gray-500 dark:text-[#aaa] mt-0.5">Professional deep cleaning for homes and offices. Eco-friendly products. Flexible scheduling including weekends.</p>
-          <div class="flex justify-between items-center pt-2">
-            <p>Starting from<br><span class="font-extrabold text-[#3f7efd]">$35/hour</span></p>
-            <button class="hire-btn bg-blue-600 hover:bg-blue-700 active:scale-95 transition-all flex py-1.5 px-3 rounded-3xl justify-center items-center gap-1" data-id="3">
-              <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>
-              <p class="text-white text-xs font-semibold">Hire Now</p>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── CARD 4 ── -->
-    <div class="favourite-card" data-category="carpentry" data-id="4">
-      <div class="dark:border-[#2e2d2d] relative border py-4 border-[#e5e5e5db] min-[618px]:rounded-xl">
-        <div class="relative flex justify-between pb-2 mx-[4%]">
-          <div class="flex gap-3">
-            <img class="rounded-full h-9 w-9 object-cover" src="src/assets/profile.png" alt="James Okafor">
-            <div>
-              <p class="font-bold">James Okafor</p>
-              <p class="text-gray-500 dark:text-[#aaa]"><span>3.4km</span><span class="mx-1">·</span>Carpentry Expert</p>
-            </div>
-          </div>
-          <div class="flex flex-col items-end gap-2">
-            <button class="unfavourite-btn" data-id="4" aria-label="Remove from favourites">
-              <svg class="fill-red-500 hover:fill-red-700 transition-colors" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/></svg>
-            </button>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
-          </div>
-        </div>
-        <img class="w-full max-h-64 object-cover" src="src/assets/person.png" alt="Post image">
-        <div class="pt-3 flex justify-between mx-[4%]">
-          <div class="flex gap-4">
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Z"/></svg>
-          </div>
-          <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
-        </div>
-        <div class="px-[4%] pt-2">
-          <h6 class="font-bold">Custom Furniture & Cabinetry</h6>
-          <p class="text-gray-500 dark:text-[#aaa] mt-0.5">Bespoke woodwork for kitchens, living rooms and offices. Repairs, installations and full builds from scratch.</p>
-          <div class="flex justify-between items-center pt-2">
-            <p>Starting from<br><span class="font-extrabold text-[#3f7efd]">$55/hour</span></p>
-            <button class="hire-btn bg-blue-600 hover:bg-blue-700 active:scale-95 transition-all flex py-1.5 px-3 rounded-3xl justify-center items-center gap-1" data-id="4">
-              <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>
-              <p class="text-white text-xs font-semibold">Hire Now</p>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── CARD 5 ── -->
-    <div class="favourite-card" data-category="painting" data-id="5">
-      <div class="dark:border-[#2e2d2d] relative border py-4 border-[#e5e5e5db] min-[618px]:rounded-xl">
-        <div class="relative flex justify-between pb-2 mx-[4%]">
-          <div class="flex gap-3">
-            <img class="rounded-full h-9 w-9 object-cover" src="src/assets/profile.png" alt="Fatima Bello">
-            <div>
-              <p class="font-bold">Fatima Bello</p>
-              <p class="text-gray-500 dark:text-[#aaa]"><span>1.7km</span><span class="mx-1">·</span>Painting Specialist</p>
-            </div>
-          </div>
-          <div class="flex flex-col items-end gap-2">
-            <button class="unfavourite-btn" data-id="5" aria-label="Remove from favourites">
-              <svg class="fill-red-500 hover:fill-red-700 transition-colors" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/></svg>
-            </button>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
-          </div>
-        </div>
-        <img class="w-full max-h-64 object-cover" src="src/assets/person.png" alt="Post image">
-        <div class="pt-3 flex justify-between mx-[4%]">
-          <div class="flex gap-4">
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
-            <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Z"/></svg>
-          </div>
-          <svg class="dark:fill-[#cbcbcb] cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/></svg>
-        </div>
-        <div class="px-[4%] pt-2">
-          <h6 class="font-bold">Interior & Exterior Painting</h6>
-          <p class="text-gray-500 dark:text-[#aaa] mt-0.5">Premium finish painting for homes and businesses. Wallpaper removal, prep work and colour consultation included.</p>
-          <div class="flex justify-between items-center pt-2">
-            <p>Starting from<br><span class="font-extrabold text-[#3f7efd]">$40/hour</span></p>
-            <button class="hire-btn bg-blue-600 hover:bg-blue-700 active:scale-95 transition-all flex py-1.5 px-3 rounded-3xl justify-center items-center gap-1" data-id="5">
-              <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>
-              <p class="text-white text-xs font-semibold">Hire Now</p>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div id="emptyState" class="hidden col-span-full flex flex-col items-center justify-center py-24 text-center px-[4%]">
-      <svg class="fill-gray-300 dark:fill-[#444] mb-4" xmlns="http://www.w3.org/2000/svg" height="64px" viewBox="0 -960 960 960" width="64px">
-        <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
-      </svg>
-      <p class="font-bold text-base dark:text-[#cbcbcb]">No favourites yet</p>
-      <p class="text-gray-400 mt-1 text-xs">Tap the heart on any post to save it here.</p>
-    </div>
-
+  <!-- Cards injected here by favourite.js -->
+  <section id="favouritesSection" class="flex flex-col items-center justify-center w-full space-y-5 pb-28">
   </section>
+
 </main>
 
-<!-- ===================== FOOTER NAV ===================== -->
-<footer class="relative mt-10 flex sm:justify-center">
-  <div id="footerSection" class="fixed bottom-0 w-full h-16 flex items-center justify-around border-t-2 dark:bg-[#101010ee] dark:text-[#cbcbcb] border-[#e5e5e5db] dark:border-[#202226ed] bg-[#fffffff4] sm:w-[65%] lg:w-[55%] sm:mb-2 sm:rounded-4xl sm:border-2">
+<footer class="relative mt-40 flex sm:justify-center ease-in-out duration-75 cursor-pointer">
+  <div id="footerSection" class="fixed bottom-0 w-full h-16 flex items-center justify-around border-2 dark:bg-[#101010ee] dark:text-[#cbcbcb] m-0 border-b-2 dark:border-[#202226ed] border-[#e5e5e5db] bg-[#fffffff4] sm:w-[65%] lg:w-[55%] sm:mb-2 sm:rounded-4xl">
 
-    <!-- Home -->
-    <div id="homeIcon" class="flex flex-col items-center cursor-pointer">
-      <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-        <path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/>
-      </svg>
-      <p class="text-[10px]">Home</p>
+    <div id="homeIcon" class="flex flex-col items-center">
+      <!-- home icon: -->
+      <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
+      <p>Home</p>
     </div>
 
-    <!-- Search -->
-    <div id="searchIcon" class="flex flex-col items-center cursor-pointer">
-      <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-        <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
-      </svg>
-      <p class="text-[10px]">Search</p>
+    <div id="searchIcon" class="flex flex-col items-center">
+      <!-- search icon -->
+      <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+      <p>Search</p>
     </div>
 
-    <!-- Create -->
-    <div id="createIcon" class="cursor-pointer">
-      <div class="border-2 rounded-full p-1 dark:border-[#cbcbcb]">
-        <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-          <path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/>
-        </svg>
+    <div id="createIcon">
+      <div class="border-2 rounded-full p-1">
+        <!-- add icon: -->
+        <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/></svg>
       </div>
     </div>
 
-    <!-- Favourites — ACTIVE -->
-    <div id="favoriteIcon" class="flex flex-col items-center cursor-pointer">
-      <svg class="fill-blue-600 dark:fill-blue-500" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-        <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
-      </svg>
-      <p class="text-[10px] text-blue-600 dark:text-blue-500 font-semibold">Favourite</p>
+    <div id="favoriteIcon" class="flex flex-col items-center">
+      <!-- favorite icon: -->
+      <svg id="footerIcon" class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
+      <p id="footerIconText">Favorite</p>
     </div>
 
-    <!-- Profile -->
-    <div id="profileIcon" class="flex flex-col items-center cursor-pointer">
-      <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-        <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/>
-      </svg>
-      <p class="text-[10px]">Profile</p>
+    <div id="profileIcon" class="flex flex-col items-center">
+      <!-- profile icon: -->
+      <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/></svg>
+      <p>Profile</p>
     </div>
 
   </div>
 </footer>
-
-<script>
-  const toggleTheme = document.getElementById('toggleTheme');
-  toggleTheme.addEventListener('click', () => {
-    document.documentElement.classList.toggle('dark');
-  });
-
-
-  const filterTabs = document.querySelectorAll('.filter-tab');
-  const allCards   = document.querySelectorAll('.favourite-card');
-
-  filterTabs.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterTabs.forEach(b => b.classList.remove('active-tab'));
-      btn.classList.add('active-tab');
-
-      const filter = btn.dataset.filter;
-
-      allCards.forEach(card => {
-        const match = filter === 'all' || card.dataset.category === filter;
-        card.style.display = match ? '' : 'none';
-      });
-
-      checkEmpty();
-    });
-  });
-
-  document.getElementById('favouritesSection').addEventListener('click', e => {
-    const btn = e.target.closest('.unfavourite-btn');
-    if (!btn) return;
-
-    const id   = btn.dataset.id;
-    const card = btn.closest('.favourite-card');
-
-    card.classList.add('removing');
-    card.addEventListener('transitionend', () => {
-      card.remove();
-      checkEmpty();
-    }, { once: true });
-  });
-  document.getElementById('favouritesSection').addEventListener('click', e => {
-    const btn = e.target.closest('.hire-btn');
-    if (!btn) return;
-
-    const id = btn.dataset.id;
-  });
-
-  function checkEmpty() {
-    const visibleCards = [...document.querySelectorAll('.favourite-card')]
-      .filter(c => c.style.display !== 'none');
-
-    document.getElementById('emptyState').classList.toggle('hidden', visibleCards.length > 0);
-  }
-</script>
 
 </body>
 </html>
