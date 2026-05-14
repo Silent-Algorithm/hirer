@@ -38,7 +38,7 @@
     }
   </style>
 </head>
-<body class="overflow-x-hidden bg-white dark:bg-[#101010] dark:text-[#cbcbcb]">
+<body class="overflow-x-hidden bg-white dark:bg-dark-theme-bg dark:text-[#cbcbcb]">
 
 <!-- ===================== HEADER ===================== -->
 <header class=" sticky top-0 z-50">
@@ -47,10 +47,11 @@
     <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold text-blue-700 dark:text-blue-500">Hirer</h1>
 
 
-    
-    <div class="flex gap-7 md:gap-14">
-    <!--profile-->
-     <a href="profile.html"> <img class=" rounded-full h-7 sm:h-8 sm:w-8 md:h-9 md:w-9 lg:w-10 lg:h-10" src="src/assets/profile.png" alt="profile"></a>
+      <!-- Language selector -->
+      <select class="outline-0 text-sm dark:bg-dark-theme-bg dark:text-[#cbcbcb]" name="language" id="language">
+        <option value="en">English</option>
+        <option value="fr">French</option>
+      </select>
 
       <!-- language -->
  
