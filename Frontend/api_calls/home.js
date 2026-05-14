@@ -32,7 +32,7 @@ async function loadData() {
         const card = document.createElement("div")
 
         card.className = `
-            bg-white dark:bg-[#161616]
+            bg-white dark:bg-dark-theme-bg
             border border-[#e5e5e5]
             dark:border-[#2f2f2f]
             rounded-2xl
