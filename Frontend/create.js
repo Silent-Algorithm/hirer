@@ -18,16 +18,11 @@ file.addEventListener('change', (e) => {
 })
 const fileInput = document.getElementById("file");
 const postBtn = document.getElementById("postBtn");
-const postMedia = document.getElementById("postMedia");
-const addPostMedia = document.getElementById("addPostMedia");
-const fileInput = document.getElementById("file");
 
 const caption = document.getElementById("caption");
 const category = document.getElementById("category");
 const price = document.getElementById("price");
 const availability = document.getElementById("availability");
-
-const postBtn = document.getElementById("postBtn");
 
 
 // ==============================
