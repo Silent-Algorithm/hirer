@@ -1,116 +1,141 @@
-const postMedia = document.getElementById('postMedia');
-const addPostMedia = document.getElementById('addPostMedia');
-const file = document.getElementById('file')
-
-
-addPostMedia.addEventListener('click', () => {
-    file.click()
-    
-});
-
-file.addEventListener('change', (e) => {
-
-    const url = URL.createObjectURL(e.target.files[0])
-    console.log(url)
-    postMedia.src = url
-    postMedia.style.display = 'block'
-    console.log(e.target.files[0])
-})
-
-async function sendPost() {
-  const postData = {
-    type: "service",
-    content: "I fix phones"
-  }
-
-  const response = await fetch("http://127.0.0.1:8000/posts", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(postData)
-  })
-
-  const data = await response.json()
-  console.log(data)
-}
-
-sendPost()
-const fileInput = document.getElementById("file");
 const postMedia = document.getElementById("postMedia");
-const postBtn = document.getElementById("postBtn");
+const addPostMedia = document.getElementById("addPostMedia");
+const fileInput = document.getElementById("file");
 
 const caption = document.getElementById("caption");
 const category = document.getElementById("category");
 const price = document.getElementById("price");
 const availability = document.getElementById("availability");
 
-let selectedFile = null;
-let imageUrl = null;
+const postBtn = document.getElementById("postBtn");
 
-// preview file
+
+// ==============================
+// OPEN FILE PICKER
+// ==============================
+
+addPostMedia.addEventListener("click", () => {
+  fileInput.click();
+});
+
+
+// ==============================
+// PREVIEW SELECTED MEDIA
+// ==============================
+
 fileInput.addEventListener("change", (e) => {
-    selectedFile = e.target.files[0];
 
-    if (!selectedFile) return;
+  const selectedFile = e.target.files[0];
 
-    imageUrl = URL.createObjectURL(selectedFile);
-    postMedia.src = imageUrl;
+  if (!selectedFile) return;
+
+  const mediaURL = URL.createObjectURL(selectedFile);
+
+  postMedia.src = mediaURL;
+  postMedia.style.display = "block";
+
+  console.log(selectedFile);
 });
 
-// click upload area
-document.getElementById("addPostMedia").addEventListener("click", () => {
-    fileInput.click();
-});
 
-// POST to backend
+// ==============================
+// UPLOAD POST TO BACKEND
+// ==============================
+
 postBtn.addEventListener("click", async () => {
-    const token = localStorage.getItem("token"); // adjust if you store differently
 
-    if (!token) {
-        alert("No auth token found");
-        return;
+  const selectedFile = fileInput.files[0];
+
+  // JWT TOKEN
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+
+    alert("Login required");
+
+    window.location.href = "./login.html";
+
+    return;
+  }
+
+  // FILE VALIDATION
+  if (!selectedFile) {
+
+    alert("Select media first");
+
+    return;
+  }
+
+  // BACKEND SERVICE DETAILS
+  const service_details = {
+    category_name: category.value,
+    price: price.value,
+    availability: availability.value
+  };
+
+  // FORM DATA
+  const formData = new FormData();
+
+  formData.append("file", selectedFile);
+
+  formData.append(
+    "content",
+    caption.value
+  );
+
+  formData.append(
+    "service_details",
+    JSON.stringify(service_details)
+  );
+
+  try {
+
+    // BUTTON LOADING STATE
+    postBtn.disabled = true;
+    postBtn.innerText = "Posting...";
+
+    // REQUEST
+    const response = await fetch(
+      "http://127.0.0.1:8000/upload",
+      {
+        method: "POST",
+
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+
+        body: formData
+      }
+    );
+
+    const data = await response.json();
+
+    console.log(data);
+
+    // BACKEND ERROR
+    if (!response.ok) {
+
+      alert(data.detail || "Upload failed");
+
+      postBtn.disabled = false;
+      postBtn.innerText = "Post";
+
+      return;
     }
 
-    const payload = {
-        content: caption.value,
-        image_url: imageUrl || null,
-        service_details: {
-            category_name: category.value,
-            price: parseFloat(price.value) || 0,
-            availability: availability.value
-        }
-    };
+    // SUCCESS
+    alert("Post created successfully");
 
-    try {
-        const res = await fetch("http://localhost:8000/posts", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(payload)
-        });
+    window.location.href = "./home.html";
 
-        if (!res.ok) {
-            const err = await res.json();
-            console.log(err);
-            alert("Post failed");
-            return;
-        }
+  } catch (error) {
 
-        const data = await res.json();
-        console.log("Created post:", data);
+    console.log(error);
 
-        alert("Post created successfully");
+    alert("Server error");
 
-        // optional reset
-        caption.value = "";
-        price.value = "";
-        postMedia.src = "src/assets/person.png";
+    postBtn.disabled = false;
+    postBtn.innerText = "Post";
+  }
 
-    } catch (err) {
-        console.error(err);
-        alert("Network error");
-    }
 });

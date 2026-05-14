@@ -16,6 +16,7 @@ async function fetchData() {
 
 async function loadData() {
     const data = await fetchData()
+    console.log(data)
 
     if (!data) {
         throw new Error("Data did not load")
