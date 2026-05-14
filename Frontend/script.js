@@ -143,3 +143,29 @@ mypromise.then(status => {
     })
 }
 
+
+// expand profile picture onclick and aslo close
+
+const accountProfile = document.getElementById('accountProfile')
+   
+if (accountProfile) {
+ const header = document.querySelector('header')
+        const main = document.querySelector('main')
+        const fullAccountProfile = document.getElementById('fullAccountProfile')
+    accountProfile.addEventListener('click', () => {
+       
+        main.style.display = 'none'
+        header.style.display = 'none'
+        fullAccountProfile.style.display = 'block'
+               
+        console.log('clicked profile')
+    })
+
+    const closeAccountProfile = document.getElementById('closeAccountProfile')
+
+    closeAccountProfile.addEventListener('click', () => {
+               main.style.display = 'block'
+        header.style.display = 'block'
+        fullAccountProfile.style.display = 'none'
+    })
+}
