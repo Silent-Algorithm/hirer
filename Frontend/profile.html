@@ -1,120 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="src/input.css">
     <script defer src="script.js"></script>
+    <script defer src=".//api_calls/profile.js"></script>
     <title id="profileIconPage">Hirer-Search</title>
 </head>
+
 <body class="overflow-x-hidden dark:bg-dark-theme-bg dark:text-[#cbcbcb] text-[11px] sm:text-base transition duration-400">
-    
-  <header class=" sticky top-0 z-50">
-      <!--navBar-->
-      
-  <nav id="navbar" class="dark:bg-dark-theme-bg dark:text-[#cbcbcb]  m-0 border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-4 sticky top-0 w-full  bg-white"> 
-<div class="flex justify-between">
-      <!-- close icon: -->
 
-<h1 class="font-extrabold ">Worker Profile</h1>
+    <header class="sticky top-0 z-50">
 
+        <!--navBar-->
+        <nav id="navbar"
+            class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] m-0 border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-4 sticky top-0 w-full bg-white">
 
-<div class="gap-8 flex items-center">
-  
-<!-- share icon: -->
-<svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z"/></svg>
+            <div class="flex justify-between">
 
-<!-- vertical dots: -->
-<svg  class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg>
+                <!-- close icon: -->
+                <h1 class="font-extrabold ">Worker Profile</h1>
 
-</div>
-</div>
-  </nav>
+                <div class="gap-8 flex items-center">
+
+                    <!-- share icon: -->
+                    <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px"
+                        viewBox="0 -960 960 960" width="24px" fill="black">
+                        <path
+                            d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35t85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm508.5-291.5Q720-743 720-760t-11.5-28.5Q697-800 680-800t-28.5 11.5Q640-777 640-760t11.5 28.5Q663-720 680-720t28.5-11.5ZM680-200ZM200-480Zm480-280Z" />
+                    </svg>
+
+                    <!-- vertical dots: -->
+                    <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px"
+                        viewBox="0 -960 960 960" width="24px" fill="black">
+                        <path
+                            d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z" />
+                    </svg>
+
+                </div>
+            </div>
+
+        </nav>
     </header>
 
-  
-<main>
-     <section class="dark:bg-dark-theme-bg dark:text-[#cbcbcb]  m-0 border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5  w-full   bg-white ">
-      <div class="flex flex-col items-center gap-y-5 justify-center ">
-        <div id="accountProfile" class="rounded-full border-3 border-blue-600 justify-center items-center ">
-          <img class="rounded-full h-18 w-18 sm:h-24 sm:w-24 md:h-30 md:w-30 lg:h-38 lg:w-38"  src="src/assets/person.png" alt="">
-        </div>
+    <main>
 
-        <div class="flex flex-col items-center gap-y-2">
-            <h1 class="font-extrabold">Marcus Rivera</h1>
-         <p class="flex items-center gap-3">
- <!-- location icon: -->
-<svg class=" fill-blue-600 dark:fill-gray-500" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" ><path d="M536.5-503.5Q560-527 560-560t-23.5-56.5Q513-640 480-640t-56.5 23.5Q400-593 400-560t23.5 56.5Q447-480 480-480t56.5-23.5ZM480-186q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/></svg><span  class="text-gray-700">Downtown, San Francisco (0.8 km away)</span>
-        </p>
-        </div>
-      
-        <div class="flex gap-x-15 sm:gap-x-26 md:gap-x-30 lg:gap-x-40 items-center">
-          <div class=" flex flex-col items-center">
-            <p class="font-extrabold">4.9</p>
-            <div class="flex gap-1 items-center">
-              <!-- kid star icon: -->
-<svg  class=" fill-amber-300 h-3 w-3 md:h-3.5 md:w-3.5 lg:h-4 lg:w-4" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m305-704 112-145q12-16 28.5-23.5T480-880q18 0 34.5 7.5T543-849l112 145 170 57q26 8 41 29.5t15 47.5q0 12-3.5 24T866-523L756-367l4 164q1 35-23 59t-56 24q-2 0-22-3l-179-50-179 50q-5 2-11 2.5t-11 .5q-32 0-56-24t-23-59l4-165L95-523q-8-11-11.5-23T80-570q0-25 14.5-46.5T135-647l170-57Zm49 69-194 64 124 179-4 191 200-55 200 56-4-192 124-177-194-66-126-165-126 165Zm126 135Z"/></svg>
-<!-- kid star icon: -->
-<svg  class=" fill-amber-300 h-3 w-3 md:h-3.5 md:w-3.5 lg:h-4 lg:w-4" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m305-704 112-145q12-16 28.5-23.5T480-880q18 0 34.5 7.5T543-849l112 145 170 57q26 8 41 29.5t15 47.5q0 12-3.5 24T866-523L756-367l4 164q1 35-23 59t-56 24q-2 0-22-3l-179-50-179 50q-5 2-11 2.5t-11 .5q-32 0-56-24t-23-59l4-165L95-523q-8-11-11.5-23T80-570q0-25 14.5-46.5T135-647l170-57Zm49 69-194 64 124 179-4 191 200-55 200 56-4-192 124-177-194-66-126-165-126 165Zm126 135Z"/></svg>
-<!-- kid star icon: -->
-<svg  class=" fill-amber-300 h-3 w-3 md:h-3.5 md:w-3.5 lg:h-4 lg:w-4" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m305-704 112-145q12-16 28.5-23.5T480-880q18 0 34.5 7.5T543-849l112 145 170 57q26 8 41 29.5t15 47.5q0 12-3.5 24T866-523L756-367l4 164q1 35-23 59t-56 24q-2 0-22-3l-179-50-179 50q-5 2-11 2.5t-11 .5q-32 0-56-24t-23-59l4-165L95-523q-8-11-11.5-23T80-570q0-25 14.5-46.5T135-647l170-57Zm49 69-194 64 124 179-4 191 200-55 200 56-4-192 124-177-194-66-126-165-126 165Zm126 135Z"/></svg>
-<!-- kid star icon: -->
-<svg  class=" fill-amber-300 h-3 w-3 md:h-3.5 md:w-3.5 lg:h-4 lg:w-4" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m305-704 112-145q12-16 28.5-23.5T480-880q18 0 34.5 7.5T543-849l112 145 170 57q26 8 41 29.5t15 47.5q0 12-3.5 24T866-523L756-367l4 164q1 35-23 59t-56 24q-2 0-22-3l-179-50-179 50q-5 2-11 2.5t-11 .5q-32 0-56-24t-23-59l4-165L95-523q-8-11-11.5-23T80-570q0-25 14.5-46.5T135-647l170-57Zm49 69-194 64 124 179-4 191 200-55 200 56-4-192 124-177-194-66-126-165-126 165Zm126 135Z"/></svg>
-<!-- kid star icon: -->
-<svg  class=" fill-amber-300 h-3 w-3 md:h-3.5 md:w-3.5 lg:h-4 lg:w-4" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m305-704 112-145q12-16 28.5-23.5T480-880q18 0 34.5 7.5T543-849l112 145 170 57q26 8 41 29.5t15 47.5q0 12-3.5 24T866-523L756-367l4 164q1 35-23 59t-56 24q-2 0-22-3l-179-50-179 50q-5 2-11 2.5t-11 .5q-32 0-56-24t-23-59l4-165L95-523q-8-11-11.5-23T80-570q0-25 14.5-46.5T135-647l170-57Zm49 69-194 64 124 179-4 191 200-55 200 56-4-192 124-177-194-66-126-165-126 165Zm126 135Z"/></svg>
+        <section
+            class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] m-0 border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5 w-full bg-white">
 
+            <div class="flex flex-col items-center gap-y-5 justify-center">
+
+                <div id="accountProfile"
+                    class="rounded-full border-3 border-blue-600 justify-center items-center">
+                    <img class="rounded-full h-18 w-18 sm:h-24 sm:w-24 md:h-30 md:w-30 lg:h-38 lg:w-38"
+                        src="src/assets/person.png" alt="">
+                </div>
+
+                <div class="flex flex-col items-center gap-y-2">
+
+                    <h1 class="font-extrabold">Marcus Rivera</h1>
+
+                    <p class="flex items-center gap-3">
+
+                        <!-- location icon: -->
+                        <svg class="fill-blue-600 dark:fill-gray-500" xmlns="http://www.w3.org/2000/svg"
+                            height="24px" viewBox="0 -960 960 960" width="24px">
+                            <path
+                                d="M536.5-503.5Q560-527 560-560t-23.5-56.5Q513-640 480-640t-56.5 23.5Q400-593 400-560t23.5 56.5Q447-480 480-480t56.5-23.5ZM480-186q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z" />
+                        </svg>
+
+                        <span class="text-gray-700">Downtown, San Francisco (0.8 km away)</span>
+
+                    </p>
+
+                </div>
+
+                <div class="flex gap-x-15 sm:gap-x-26 md:gap-x-30 lg:gap-x-40 items-center">
+
+                    <section class="mt-6">
+
+                        <h2 class="text-lg font-semibold text-center font-extrabold">Ratings</h2>
+
+                        <div id="ratingStars" class="text-center font-extrabold">
+                            <div id="ratingValue" class="flex gap-1 font-extrabold"></div>
+                        </div>
+
+                    </section>
+
+                </div>
 
             </div>
-  <p class="text-gray-500">RATING</p>          
-          </div>
 
-          <div  class=" flex flex-col items-center">
-          <p class="font-extrabold">142</p>
-          <p class="text-gray-500">JOBS DONE</p>
+        </section>
+
+        <section
+            class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] m-0 border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5 w-full bg-white">
+
+            <div class="flex flex-col gap-y-5">
+
+                <div>
+
+                    <h1 class="font-bold">About</h1>
+
+                    <p>
+                        Professional plumber with over 10 years of experience in residential and commercial maintenance.
+                        Specialized in leak detection, pipe replacement and high-end bathroom installations.
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <h1 class="font-bold">Skills</h1>
+
+                    <p class="flex gap-x-6">
+                        <span>Plumbing</span>
+                        <span>Heating</span>
+                        <span>Emergency Repairs</span>
+                        <span>Drainage</span>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section
+            class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] m-0 border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5 w-full bg-white">
+
+            <button class="bg-blue-600 flex py-1.5 px-2.5 rounded-3xl justify-center items-center">
+
+                <!-- call icon: -->
+                <svg class="dark:fill-[#cbcbcb] fill-[#efecec]" xmlns="http://www.w3.org/2000/svg"
+                    height="24px" viewBox="0 -960 960 960" width="24px">
+                    <path
+                        d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z" />
+                </svg>
+
+                <p class="text-[#dfdddd] dark:text-[#cbcbcb]">Contact</p>
+
+            </button>
+
+        </section>
+
+    </main>
+
+    <section id="fullAccountProfile" class="relative h-full hidden">
+
+        <!-- close icon: -->
+        <svg id="closeAccountProfile" class="dark:fill-[#cbcbcb] z-50 absolute bottom-5 right-5"
+            xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+            fill="black">
+            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+        </svg>
+
+        <div class="flex absolute justify-center items-center">
+            <img class="-z-10" src="src/assets/person.png" alt="">
         </div>
-        <div  class=" flex flex-col items-center">
-          <p class="font-extrabold">98%</p>
-          <p class="text-gray-500">ON TIME</p>
-        </div>
-        </div>
-        
-      </div>
-      </section>
 
-       <section class="dark:bg-dark-theme-bg dark:text-[#cbcbcb]  m-0 border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5  w-full   bg-white ">
-        <div class="flex flex-col gap-y-5">
-          <div>
-          <h1 class="font-bold">About</h1>
-        <p>Professional plumber with over 10 years of experience in residential and commercial maintenance. Specialized in leak detection, pipe replacement and high-end bathroom installations.</p>
-        </div>
-
-        <div>
-          <h1 class="font-bold">Skills</h1>
-        <p class="flex gap-x-6"><span>Plumbing</span><span>Heating</span><span>Emergency Repairs</span><span>Drainage</span></p>
-        </div>
-
-        </div>
-
-       </section>
-
-              <section class="dark:bg-dark-theme-bg dark:text-[#cbcbcb]  m-0 border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5  w-full   bg-white ">
-                        <button class="bg-blue-600 flex py-1.5 px-2.5 rounded-3xl justify-center items-center ">
-            <!-- call icon: -->
-<svg class="dark:fill-[#cbcbcb] fill-[#efecec]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"/></svg>
-<p class="text-[#dfdddd] dark:text-[#cbcbcb]">Contact</p>
-          </button>
-              </section>
-
-</main>
-<section id="fullAccountProfile" class="relative h-full hidden">
-    <!-- close icon: -->
-<svg id="closeAccountProfile" class="dark:fill-[#cbcbcb] z-50 absolute bottom-5 right-5" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
-  <div class="flex absolute justify-center items-center ">
-  
-  <img class="-z-10" src="src/assets/person.png" alt="">
-</div>
-</section>
-
+    </section>
 
     <footer class="cursor-pointer relative mt-40 flex sm:justify-center ease-in-out duration-75">
     <div id="footerSection" class="fixed bottom-0 w-full h-16 flex items-center justify-around border-2 dark:bg-[#101010ee] dark:text-[#cbcbcb] m-0 border-b-2 dark:border-[#202226ed] border-[#e5e5e5db] bg-[#fffffff4] sm:w-[65%] lg:w-[55%] sm:mb-2 sm:rounded-4xl">
@@ -152,5 +199,7 @@
 </div>
     </div>
   </footer>
+
 </body>
+
 </html>

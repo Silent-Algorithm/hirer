@@ -17,7 +17,6 @@ file.addEventListener('change', (e) => {
     console.log(e.target.files[0])
 })
 const fileInput = document.getElementById("file");
-const postMedia = document.getElementById("postMedia");
 const postBtn = document.getElementById("postBtn");
 
 const caption = document.getElementById("caption");

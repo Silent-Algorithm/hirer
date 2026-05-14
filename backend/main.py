@@ -10,6 +10,8 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from sqlalchemy.orm import joinedload
+from typing import Optional, List
+from sqlalchemy import or_
 
 import models
 import schemas
@@ -205,8 +207,7 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
         "access_token": token
     }
 
-from typing import Optional, List
-from sqlalchemy import or_
+
 
 @app.get("/users/search", response_model=List[schemas.UserPublic])
 def search_users(
