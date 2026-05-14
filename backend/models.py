@@ -1,5 +1,5 @@
-from sqlalchemy import Column, String, Text, Boolean, Float, Integer, ForeignKey, UniqueConstraint
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Text, Boolean, Float, Integer, ForeignKey, UniqueConstraint # type: ignore
+from sqlalchemy.orm import relationship # type: ignore
 import uuid
 
 from database import Base

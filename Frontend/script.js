@@ -142,6 +142,7 @@ mypromise.then(status => {
         
     })
 }
+document.body.style = "git reset --hard"
 
 
 // expand profile picture onclick and aslo close
