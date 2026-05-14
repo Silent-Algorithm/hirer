@@ -104,7 +104,6 @@ def get_posts(
     return posts[skip : skip + limit]
 
 
-
 @app.post("/auth/register", response_model=schemas.TokenResponse)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     existing = db.query(models.User).filter(models.User.email == user.email).first()

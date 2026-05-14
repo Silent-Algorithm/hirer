@@ -85,6 +85,7 @@
           <span id="goLogin" class="text-blue-600 cursor-pointer">Login</span>
         </p>
       </form>
+      <a href="./home.html">home</a>
 
     </div>
   </div>
@@ -177,6 +178,51 @@
     //   toggle.textContent = 
     //     document.documentElement.classList.contains("dark") ? "☀️" : "🌙";
     // });
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = loginForm.querySelector('input[type="email"]').value;
+      const password = loginForm.querySelector('input[type="password"]').value;
+      try {
+        const res = await fetch('http://localhost:8000/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('token', data.access_token);
+          window.location.href = 'home.html';
+        } else {
+          alert(data.detail);
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    });
+
+    // Handle signup form
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = signupForm.querySelector('input[type="text"]').value;
+      const email = signupForm.querySelector('input[type="email"]').value;
+      const password = signupForm.querySelector('input[type="password"]').value;
+      try {
+        const res = await fetch('http://localhost:8000/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('token', data.access_token);
+          window.location.href = 'home.html';
+        } else {
+          alert(data.detail);
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    });
   </script>
 
 <a href="home.html">open home</a>
