@@ -36,7 +36,7 @@
 <main>
      <section class="dark:bg-dark-theme-bg dark:text-[#cbcbcb]  m-0 border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5  w-full   bg-white ">
       <div class="flex flex-col items-center gap-y-5 justify-center ">
-        <div class="rounded-full border-3 border-blue-600 justify-center items-center ">
+        <div id="accountProfile" class="rounded-full border-3 border-blue-600 justify-center items-center ">
           <img class="rounded-full h-18 w-18 sm:h-24 sm:w-24 md:h-30 md:w-30 lg:h-38 lg:w-38"  src="src/assets/person.png" alt="">
         </div>
 
@@ -106,6 +106,14 @@
               </section>
 
 </main>
+<section id="fullAccountProfile" class="relative h-full hidden">
+    <!-- close icon: -->
+<svg id="closeAccountProfile" class="dark:fill-[#cbcbcb] z-50 absolute bottom-5 right-5" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+  <div class="flex absolute justify-center items-center ">
+  
+  <img class="-z-10" src="src/assets/person.png" alt="">
+</div>
+</section>
 
 
     <footer class="cursor-pointer relative mt-40 flex sm:justify-center ease-in-out duration-75">

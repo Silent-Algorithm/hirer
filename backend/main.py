@@ -201,4 +201,165 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
 
     token = create_access_token(db_user.id)
 
-    return {"access_token": token}
+    return {
+        "access_token": token
+    }
+
+from typing import Optional, List
+from sqlalchemy import or_
+
+@app.get("/users/search", response_model=List[schemas.UserPublic])
+def search_users(
+    q: Optional[str] = None,
+    lat: Optional[float] = None,
+    lon: Optional[float] = None,
+    skip: int = 0,
+    limit: int = 10,
+    db: Session = Depends(get_db)
+):
+    query = db.query(models.User)
+    
+    if q:
+        search_term = f"%{q}%"
+        # Search by name or skills using case-insensitive LIKE
+        query = query.filter(
+            or_(
+                models.User.name.ilike(search_term),
+                models.User.skills.ilike(search_term)
+            )
+        )
+    
+    users = query.all()
+    if lat is not None and lon is not None:
+        def get_distance(user):
+            if user.latitude is None or user.longitude is None:
+                return float('inf')
+            return math.hypot(user.latitude - lat, user.longitude - lon)
+        users.sort(key=get_distance)
+        
+    return users[skip : skip + limit]
+
+@app.get("/auth/me", response_model=schemas.UserPrivate)
+def get_me(current_user: models.User = Depends(get_current_user)):
+    return current_user
+
+@app.put("/users/profile", response_model=schemas.UserPrivate)
+def update_profile(
+    profile_data: schemas.UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    update_data = profile_data.dict(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(current_user, key, value)
+    
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
+    
+    return current_user
+
+@app.get("/users/{user_id}", response_model=schemas.UserPublic)
+def get_user_profile(user_id: str, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+
+@app.post("/users/verify")
+def verify_user(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    current_user.is_verified = True
+    db.add(current_user)
+    db.commit()
+    return {"message": "Verification approved. You now have a verified badge."}
+
+@app.post("/favorites/{worker_id}")
+def add_favorite(
+    worker_id: str,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    # Check if user exists
+    worker = db.query(models.User).filter(models.User.id == worker_id).first()
+    if not worker:
+        raise HTTPException(status_code=404, detail="Worker not found")
+        
+    # Check if already favorited
+    existing = db.query(models.Favorite).filter(
+        models.Favorite.user_id == current_user.id,
+        models.Favorite.favorite_user_id == worker_id
+    ).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Worker already in favorites")
+        
+    fav = models.Favorite(user_id=current_user.id, favorite_user_id=worker_id)
+    db.add(fav)
+    db.commit()
+    return {"message": "Added to favorites"}
+
+@app.get("/favorites", response_model=List[schemas.FavoriteResponse])
+def get_favorites(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    return db.query(models.Favorite).filter(models.Favorite.user_id == current_user.id).all()
+
+@app.delete("/favorites/{worker_id}")
+def remove_favorite(
+    worker_id: str,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    existing = db.query(models.Favorite).filter(
+        models.Favorite.user_id == current_user.id,
+        models.Favorite.favorite_user_id == worker_id
+    ).first()
+    if not existing:
+        raise HTTPException(status_code=404, detail="Favorite not found")
+        
+    db.delete(existing)
+    db.commit()
+    return {"message": "Removed from favorites"}
+
+@app.post("/users/{user_id}/ratings", response_model=schemas.RatingResponse)
+def add_rating(
+    user_id: str,
+    rating_in: schemas.RatingCreate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    if user_id == current_user.id:
+        raise HTTPException(status_code=400, detail="Cannot rate yourself")
+    
+    worker = db.query(models.User).filter(models.User.id == user_id).first()
+    if not worker:
+        raise HTTPException(status_code=404, detail="Worker not found")
+        
+    existing = db.query(models.Rating).filter(
+        models.Rating.reviewer_id == current_user.id,
+        models.Rating.reviewed_user_id == user_id
+    ).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="You have already rated this worker")
+        
+    new_rating = models.Rating(
+        reviewer_id=current_user.id,
+        reviewed_user_id=user_id,
+        rating=rating_in.rating,
+        comment=rating_in.comment
+    )
+    db.add(new_rating)
+    db.commit()
+    db.refresh(new_rating)
+    return new_rating
+
+@app.get("/users/{user_id}/ratings", response_model=List[schemas.RatingResponse])
+def get_ratings(user_id: str, db: Session = Depends(get_db)):
+    worker = db.query(models.User).filter(models.User.id == user_id).first()
+    if not worker:
+        raise HTTPException(status_code=404, detail="Worker not found")
+        
+    return db.query(models.Rating).filter(models.Rating.reviewed_user_id == user_id).all()

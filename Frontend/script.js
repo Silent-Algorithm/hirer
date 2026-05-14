@@ -21,12 +21,8 @@ if (feet) {
 }
 
 //use the same theme in the home page accross all pages
-    localStorage.getItem("theme") === 'dark' ? document.documentElement.classList.remove('dark') : document.documentElement.classList.add('dark');
- 
+    localStorage.getItem("theme") === 'light dark' ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
 
-    console.log(localStorage.getItem('theme'))
-
-    
 //toggle taskbar during scroll and screen holds
    let lastScrollY = scrollY;
     
@@ -57,8 +53,8 @@ window.document.addEventListener('pointerleave', endHold)
 const searchIcon = document.getElementById('searchIcon')
 const homeIcon = document.getElementById('homeIcon')
 const createIcon = document.getElementById('createIcon')
-    const profileIcon = document.getElementById('profileIcon');
-    const favoriteIcon = document.getElementById('favoriteIcon')
+const profileIcon = document.getElementById('profileIcon');
+const favoriteIcon = document.getElementById('favoriteIcon')
 
     searchIcon.addEventListener('click', (event) => {
         event.preventDefault()
@@ -82,7 +78,7 @@ const createIcon = document.getElementById('createIcon')
 
         favoriteIcon.addEventListener('click', (event) => {
         event.preventDefault()
-        window.location.href = 'favorite.html'
+        window.location.href = 'favourite.html'
     })
 
 
@@ -147,3 +143,29 @@ mypromise.then(status => {
     })
 }
 
+
+// expand profile picture onclick and aslo close
+
+const accountProfile = document.getElementById('accountProfile')
+   
+if (accountProfile) {
+ const header = document.querySelector('header')
+        const main = document.querySelector('main')
+        const fullAccountProfile = document.getElementById('fullAccountProfile')
+    accountProfile.addEventListener('click', () => {
+       
+        main.style.display = 'none'
+        header.style.display = 'none'
+        fullAccountProfile.style.display = 'block'
+               
+        console.log('clicked profile')
+    })
+
+    const closeAccountProfile = document.getElementById('closeAccountProfile')
+
+    closeAccountProfile.addEventListener('click', () => {
+               main.style.display = 'block'
+        header.style.display = 'block'
+        fullAccountProfile.style.display = 'none'
+    })
+}
