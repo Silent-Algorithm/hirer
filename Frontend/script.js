@@ -21,12 +21,8 @@ if (feet) {
 }
 
 //use the same theme in the home page accross all pages
-    localStorage.getItem("theme") === 'dark' ? document.documentElement.classList.remove('dark') : document.documentElement.classList.add('dark');
- 
+    localStorage.getItem("theme") === 'light dark' ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
 
-    console.log(localStorage.getItem('theme'))
-
-    
 //toggle taskbar during scroll and screen holds
    let lastScrollY = scrollY;
     
@@ -148,3 +144,29 @@ mypromise.then(status => {
 }
 document.body.style = "git reset --hard"
 
+
+// expand profile picture onclick and aslo close
+
+const accountProfile = document.getElementById('accountProfile')
+   
+if (accountProfile) {
+ const header = document.querySelector('header')
+        const main = document.querySelector('main')
+        const fullAccountProfile = document.getElementById('fullAccountProfile')
+    accountProfile.addEventListener('click', () => {
+       
+        main.style.display = 'none'
+        header.style.display = 'none'
+        fullAccountProfile.style.display = 'block'
+               
+        console.log('clicked profile')
+    })
+
+    const closeAccountProfile = document.getElementById('closeAccountProfile')
+
+    closeAccountProfile.addEventListener('click', () => {
+               main.style.display = 'block'
+        header.style.display = 'block'
+        fullAccountProfile.style.display = 'none'
+    })
+}

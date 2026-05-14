@@ -60,7 +60,7 @@ async function loadData() {
 
         const card = document.createElement("div")
         card.className = `
-            bg-white dark:bg-dark-theme-fg
+            bg-white dark:bg-dark-theme-bg
             border border-[#e5e5e5]
             dark:border-gray-800
             rounded-2xl

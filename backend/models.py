@@ -46,7 +46,7 @@ class Post(Base):
     id = Column(String, primary_key=True, default=generate_uuid)
 
     user_id = Column(String, ForeignKey("users.id"))
-    type = Column(String)  # social | service
+    type = Column(String, default="service", nullable=False)
 
     content = Column(Text)
     image_url = Column(Text)
@@ -63,8 +63,7 @@ class ServiceDetails(Base):
     post_id = Column(String, ForeignKey("posts.id"), unique=True)
     category_id = Column(String, ForeignKey("categories.id"))
 
-    price_min = Column(Integer)
-    price_max = Column(Integer)
+    price = Column(Integer)
     availability = Column(String)
 
     post = relationship("Post", back_populates="service")

@@ -13,6 +13,7 @@
 
     <header class="sticky top-0 z-50">
         <!-- navBar -->
+        <!--navBar-->
         <nav id="navbar" class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] m-0 border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-4 sticky top-0 w-full bg-white">
             <div class="flex items-center gap-x-[10%]">
                 <h1 class="font-extrabold">New post</h1>
@@ -21,130 +22,181 @@
         </nav>
     </header>
 
-    <main>
+<main class="space-y-6">
 
-        <section id="addPostMedia" class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] m-0 border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5 w-full bg-white">
+    <section id="addPostMedia" class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5 w-full bg-white space-y-4">
 
-            <input class="hidden" type="file" id="file" accept="image/*,video/*">
+        <input class="hidden" type="file" id="file" accept="image/*,video/*">
 
-            <div class="h-68 flex flex-col justify-center items-center cursor-pointer relative">
+        <div class="relative w-full min-h-[220px] sm:min-h-[300px] flex flex-col justify-center items-center cursor-pointer rounded-xl overflow-hidden bg-gray-50 dark:bg-black/20 transition">
 
-                <img id="postMedia" class="h-full max-h-68 w-full md:w-[50%] absolute" src="src/assets/person.png" alt="picture or video">
+            <img
+                id="postMedia"
+                class="absolute inset-0 w-full h-full object-cover opacity-80"
+                src="src/assets/person.png"
+                alt="picture or video"
+            >
 
-                <!-- add picture icon -->
-                <svg class="dark:fill-[#cbcbcb] mb-4" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-                    <path d="M480-480ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h320v80H200v560h560v-320h80v320q0 33-23.5 56.5T760-120H200Zm40-160h480L570-480 450-320l-90-120-120 160Zm440-320v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Z"/>
-                </svg>
+            <svg class="relative dark:fill-[#cbcbcb] mb-2 z-10" xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="black">
+                <path d="M480-480ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h320v80H200v560h560v-320h80v320q0 33-23.5 56.5T760-120H200Zm40-160h480L570-480 450-320l-90-120-120 160Zm440-320v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Z"/>
+            </svg>
 
-                <p>Tap to add photo or video</p>
-            </div>
+            <p class="relative z-10 text-sm sm:text-base text-center">
+                Tap to add photo or video
+            </p>
+        </div>
 
-            <button class="z-20 text-blue-600">click to edit change post</button>
+        <button class="text-blue-600 font-medium active:scale-95 transition">
+            Click to edit post
+        </button>
 
-        </section>
+    </section>
 
-        <section class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5 w-full bg-white">
+    <section class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5 w-full bg-white space-y-5">
 
-            <h1 class="font-bold pb-2 text-base min-[468px]:text-xl">Caption</h1>
+        <div>
+            <h1 class="font-bold pb-2 text-base sm:text-xl">Caption</h1>
 
-            <textarea class="w-full h-14 focus:h-20 focus:bg-gray-50 focus:border rounded-2xl p-3 outline-0 placeholder:text-[#cbcbcb] dark:focus:bg-black resize-none border-[#e5e5e5db] ease-in-out duration-300 z-50 dark:placeholder:text-[#747373]" placeholder="Write Something..." name="caption" id=""></textarea>
+            <textarea
+                id="caption"
+                class="w-full min-h-[70px] focus:min-h-[110px] transition-all duration-300 focus:bg-gray-50 dark:focus:bg-black rounded-2xl p-3 outline-none resize-none border border-[#e5e5e5db] dark:border-[#2a2a2a] placeholder:text-[#9a9a9a]"
+                placeholder="Write Something..."
+                name="caption"
+            ></textarea>
+        </div>
 
-            <h1 class="font-bold pb-2 text-xs min-[468px]:text-base sm:text-xl">Service Category</h1>
+        <div>
+            <h1 class="font-bold pb-2 text-base sm:text-xl">Service Category</h1>
 
-            <select class="w-full p-2 border bg-gray-50 rounded-xl sm:w-[60%] outline-0 border-[#cbcbcb] dark:bg-dark-theme-bg" name="selecetCategory" id="">
-                <option value="">Electrician</option>
-                <option value="">Cleaning</option>
-                <option value="">Moving</option>
-                <option value="">Plumbing</option>
+            <select
+                id="category"
+                class="w-full sm:w-[60%] p-2 border rounded-xl bg-gray-50 dark:bg-dark-theme-bg outline-none"
+            >
+                <option>Electrician</option>
+                <option>Cleaning</option>
+                <option>Moving</option>
+                <option>Plumbing</option>
             </select>
+        </div>
 
-            <div class="flex justify-between items-center">
+        <div class="flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-end">
 
-                <div>
-                    <h1 class="font-bold pb-2 text-base min-[468px]:text-xl pt-2">Price Estimate</h1>
-                    <input class="p-2 border bg-gray-50 rounded-xl outline-0 border-[#cbcbcb] dark:bg-dark-theme-bg" placeholder="0.00 CFA" type="text" name="" id="">
-                </div>
+            <div class="w-full sm:w-1/2">
+                <h1 class="font-bold pb-2 text-base sm:text-xl">Price Estimate</h1>
 
-                <div>
-                    <h1 class="font-bold pb-2 text-base min-[468px]:text-xl pt-2">Availability</h1>
-
-                    <select class="w-full p-2 border bg-gray-50 rounded-xl sm:w-[60%] outline-0 border-[#cbcbcb] dark:bg-dark-theme-bg" name="selecetCategory" id="">
-                        <option class="avialable" value="">Available Today</option>
-                        <option value="notAvailable">Not Available Today</option>
-                    </select>
-
-                </div>
-
+                <input
+                    id="price"
+                    class="w-full p-2 border rounded-xl bg-gray-50 dark:bg-dark-theme-bg outline-none"
+                    placeholder="0.00 CFA"
+                    type="text"
+                >
             </div>
 
-        </section>
+            <div class="w-full sm:w-1/2">
+                <h1 class="font-bold pb-2 text-base sm:text-xl">Availability</h1>
 
-        <div class="pt-5 mx-[4%] flex justify-between">
-
-            <div class="flex items-center gap-3">
-
-                <!-- location icon -->
-                <svg class="fill-blue-600 dark:fill-gray-500" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-                    <path d="M536.5-503.5Q560-527 560-560t-23.5-56.5Q513-640 480-640t-56.5 23.5Q400-593 400-560t23.5 56.5Q447-480 480-480t56.5-23.5ZM480-186q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/>
-                </svg>
-
-                <div>
-                    <h1 class="font-bold pb-2 text-base min-[468px]:text-xl">Current Location</h1>
-                    <p class="text-gray-700">Downtown Saint Francisco</p>
-                </div>
-
+                <select
+                    id="availability"
+                    class="w-full p-2 border rounded-xl bg-gray-50 dark:bg-dark-theme-bg outline-none"
+                >
+                    <option>Available Today</option>
+                    <option>Not Available Today</option>
+                </select>
             </div>
-
-            <!-- toggle -->
-            <label class="relative switch border h-5 w-10 rounded-3xl">
-                <input class="peer sr-only" type="checkbox" id="locationPermission">
-
-                <span class="slider inset-0 cursor-pointer bg-gray-400 absolute rounded-full h-5 w-5 duration-300 peer-checked:bg-blue-600 peer-checked:translate-x-5" id="track"></span>
-
-            </label>
 
         </div>
 
-    </main>
+    </section>
+
+    <div class="px-[4%] flex flex-col sm:flex-row sm:justify-between gap-4">
+
+        <div class="flex items-center gap-3">
+
+            <svg class="fill-blue-600 dark:fill-gray-500" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                <path d="M536.5-503.5Q560-527 560-560t-23.5-56.5Q513-640 480-640t-56.5 23.5Q400-593 400-560t23.5 56.5Q447-480 480-480t56.5-23.5Z"/>
+            </svg>
+
+            <div>
+                <h1 class="font-bold text-base sm:text-xl">Current Location</h1>
+                <p class="text-gray-600 text-sm sm:text-base">Downtown Saint Francisco</p>
+            </div>
+
+        </div>
+
+        <label class="relative border h-5 w-10 rounded-full">
+            <input class="peer sr-only" type="checkbox" id="locationPermission">
+
+            <span
+                class="absolute inset-0 bg-gray-400 rounded-full cursor-pointer transition
+                peer-checked:bg-blue-600"
+            ></span>
+
+            <span
+                class="absolute h-5 w-5 bg-white rounded-full transition-all duration-300
+                peer-checked:translate-x-5"
+            ></span>
+            
+        </label>
+
+    </div>
+
+    <!-- CONNECTED BUTTON -->
+    <div class="px-[4%] pb-6">
+        <button
+            id="postBtn"
+            class="w-full sm:w-[200px] bg-blue-600 text-white p-3 rounded-xl active:scale-95"
+        >
+            Post
+        </button>
+    </div>
+
+</main>
 
     <footer class="cursor-pointer relative mt-40 flex sm:justify-center ease-in-out duration-75">
 
         <div id="footerSection" class="fixed bottom-0 w-full h-16 flex items-center justify-around border-2 dark:bg-[#101010ee] dark:text-[#cbcbcb] m-0 border-b-2 dark:border-[#202226ed] border-[#e5e5e5db] bg-[#fffffff4] sm:w-[65%] lg:w-[55%] sm:mb-2 sm:rounded-4xl">
 
-            <div id="homeIcon" class="flex flex-col items-center">
-                <svg class="dark:fill-[#cbcbcb] footerIcon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-                    <path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/>
-                </svg>
+            <div name="home" id="homeIcon" class="flex flex-col items-center">
+
+                <!-- home icon: -->
+                <svg class="dark:fill-[#cbcbcb] footerIcon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
                 <p class="footerText">Home</p>
+
             </div>
 
             <div id="searchIcon" class="flex flex-col items-center">
-                <svg class="dark:fill-[#cbcbcb] footerIcon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-                    <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
-                </svg>
+
+                <!-- search icon -->
+                <svg class="dark:fill-[#cbcbcb] footerIcon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
                 <p class="footerText">Search</p>
+
             </div>
 
             <div id="createIcon">
+
                 <div id="footerIconText" class="border-2 rounded-full p-1">
-                    <svg id="footerIcon" class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-                        <path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/>
-                    </svg>
+
+                    <!-- add icon: -->
+                    <svg id="footerIcon" class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z"/></svg>
+
                 </div>
+
             </div>
 
             <div id="favoriteIcon" class="flex flex-col items-center">
-                <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-                    <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
-                </svg>
+
+                <!-- favorite icon: -->
+                <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
                 <p>Favorite</p>
+
             </div>
 
             <div id="profileIcon" class="flex flex-col items-center">
-                <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black">
-                    <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/>
-                </svg>
+
+                <!-- profile icon: -->
+                <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z"/></svg>
                 <p>Profile</p>
+
             </div>
 
         </div>

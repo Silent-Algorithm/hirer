@@ -1,4 +1,3 @@
-import hashlib
 from passlib.context import CryptContext
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
@@ -12,13 +11,11 @@ pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 
 def hash_password(password: str):
-    prehashed = hashlib.sha256(password.encode()).hexdigest()
-    return pwd_context.hash(prehashed)
+    return pwd_context.hash(password)
 
 
 def verify_password(plain, hashed):
-    prehashed = hashlib.sha256(plain.encode()).hexdigest()
-    return pwd_context.verify(prehashed, hashed)
+    return pwd_context.verify(plain, hashed)
 
 
 def create_access_token(user_id: str):
@@ -28,6 +25,7 @@ def create_access_token(user_id: str):
         "exp": expire
     }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
 
 def decode_token(token: str):
     try:
