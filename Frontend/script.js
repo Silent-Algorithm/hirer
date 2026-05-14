@@ -21,9 +21,8 @@ if (feet) {
 }
 
 //use the same theme in the home page accross all pages
-    localStorage.getItem("theme") === 'dark' ? document.documentElement.classList.remove('dark') : document.documentElement.classList.add('dark');
+    localStorage.getItem("theme") === 'light dark' ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
 
-    
 //toggle taskbar during scroll and screen holds
    let lastScrollY = scrollY;
     
