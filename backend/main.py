@@ -260,6 +260,65 @@ def update_profile(
     
     return current_user
 
+@app.post("/users/profile-image")
+def upload_profile_image(
+    image: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    upload_dir = "uploads"
+    os.makedirs(upload_dir, exist_ok=True)
+
+    file_ext = image.filename.split(".")[-1]
+    filename = f"{current_user.id}.{file_ext}"
+    file_path = os.path.join(upload_dir, filename)
+
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(image.file, buffer)
+
+    # save URL in DB
+    current_user.profile_image = f"/static/{filename}"
+
+    db.commit()
+    db.refresh(current_user)
+
+    return {
+        "image_url": current_user.profile_image
+    }
+from fastapi import UploadFile, File, Depends
+import shutil
+import os
+import uuid
+
+@app.post("/users/profile-image")
+def upload_profile_image(
+    image: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    # create folder if not exists
+    os.makedirs("uploads", exist_ok=True)
+
+    # unique filename
+    ext = image.filename.split(".")[-1]
+    filename = f"{current_user.id}_{uuid.uuid4()}.{ext}"
+    path = f"uploads/{filename}"
+
+    # save file
+    with open(path, "wb") as buffer:
+        shutil.copyfileobj(image.file, buffer)
+
+    # store URL in DB
+    current_user.profile_image = f"/static/{filename}"
+
+    db.commit()
+    db.refresh(current_user)
+
+    return {
+        "image_url": current_user.profile_image
+    }
+
+
 @app.get("/users/{user_id}", response_model=schemas.UserPublic)
 def get_user_profile(user_id: str, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == user_id).first()

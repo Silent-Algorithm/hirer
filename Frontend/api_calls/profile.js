@@ -255,11 +255,80 @@ async function loadProfile() {
   }
 }
 
-// ===============================
-// START
-// ===============================
 loadProfile();
 
+// ===============================
+// EDIT PROFILE
+// ===============================
+
+async function updateProfile(updatedData) {
+  try {
+    const response = await fetch(`${API_BASE}/users/profile`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.log(error);
+      throw new Error("Failed to update profile");
+    }
+
+    const updatedUser = await response.json();
+
+    console.log("Updated User:", updatedUser);
+
+    alert("Profile updated successfully");
+
+    // reload profile after update
+    loadProfile();
+
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+}
+
+// ===============================
+// EDIT BUTTON EVENT
+// ===============================
+
+const saveProfileBtn = document.getElementById("saveProfileBtn");
+
+if (saveProfileBtn) {
+  saveProfileBtn.addEventListener("click", async () => {
+
+    const updatedData = {
+      name: document.getElementById("editName").value,
+
+      bio: document.getElementById("editBio").value,
+
+      skills: document.getElementById("editSkills").value,
+
+      whatsapp_link: document.getElementById("editWhatsapp").value,
+
+      latitude: document.getElementById("editLatitude").value,
+
+      longitude: document.getElementById("editLongitude").value,
+    };
+
+    // remove empty fields
+    Object.keys(updatedData).forEach((key) => {
+      if (
+        updatedData[key] === "" ||
+        updatedData[key] === null
+      ) {
+        delete updatedData[key];
+      }
+    });
+
+    await updateProfile(updatedData);
+  });
+}
 
 
 
