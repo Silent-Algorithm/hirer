@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="src/input.css" />
+
+  <script defer src="./edit_profile.js"></script>
+
+  <title>Edit Profile</title>
+</head>
+
+<body class="bg-[#f5f5f5] dark:bg-[#101010] min-h-screen">
+
+  <!-- HEADER -->
+  <header
+    class="sticky top-0 bg-white dark:bg-[#101010] border-b border-gray-200 dark:border-[#202226] px-5 py-4 z-50"
+  >
+
+    <div class="flex items-center justify-between">
+
+      <!-- BACK BUTTON -->
+      <button
+        onclick="window.location.href='./profile.html'"
+        class="text-xl font-bold"
+      >
+        ←
+      </button>
+
+      <h1 class="font-bold text-lg dark:text-white">
+        Edit Profile
+      </h1>
+
+      <div></div>
+
+    </div>
+
+  </header>
+
+  <!-- MAIN -->
+  <main class="p-5 flex justify-center">
+
+    <div
+      class="w-full max-w-xl bg-white dark:bg-[#181818] rounded-3xl p-6 shadow-lg flex flex-col gap-6"
+    >
+
+      <!-- PROFILE IMAGE -->
+      <div class="flex flex-col items-center gap-3">
+
+        <div
+  onclick="document.getElementById('profileImageInput').click()"
+  class="h-28 w-28 rounded-full border-4 border-blue-600 overflow-hidden cursor-pointer"
+>
+
+          <img
+      id="profilePreview"
+      class="h-full w-full object-cover"
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='gray'%3E%3Cpath d='M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5Zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5Z'/%3E%3C/svg%3E"
+    />
+          <div class="flex flex-col gap-2">
+  <label class="font-bold">Profile Image</label>
+
+  <input
+    type="file"
+    id="profileImageInput"
+    accept="image/*"
+    class="hidden"
+  />
+</div>
+
+        </div>
+
+      </div>
+
+      <!-- NAME -->
+      <div class="flex flex-col gap-2">
+
+        <label class="font-semibold dark:text-white">
+          Name
+        </label>
+
+        <input
+          id="editName"
+          type="text"
+          placeholder="Enter your name"
+          class="border border-gray-300 dark:border-[#2d2d2d] bg-transparent rounded-xl p-4 outline-none"
+        >
+
+      </div>
+
+      <!-- BIO -->
+      <div class="flex flex-col gap-2">
+
+        <label class="font-semibold dark:text-white">
+          Bio
+        </label>
+
+        <textarea
+          id="editBio"
+          placeholder="Tell people about yourself"
+          class="border border-gray-300 dark:border-[#2d2d2d] bg-transparent rounded-xl p-4 outline-none h-28 resize-none"
+        ></textarea>
+
+      </div>
+
+      <!-- SKILLS -->
+      <div class="flex flex-col gap-2">
+
+        <label class="font-semibold dark:text-white">
+          Skills
+        </label>
+
+        <input
+          id="editSkills"
+          type="text"
+          placeholder="HTML, CSS, JavaScript"
+          class="border border-gray-300 dark:border-[#2d2d2d] bg-transparent rounded-xl p-4 outline-none"
+        >
+
+      </div>
+
+      <!-- WHATSAPP -->
+      <div class="flex flex-col gap-2">
+
+        <label class="font-semibold dark:text-white">
+          WhatsApp Link
+        </label>
+
+        <input
+          id="editWhatsapp"
+          type="text"
+          placeholder="https://wa.me/237..."
+          class="border border-gray-300 dark:border-[#2d2d2d] bg-transparent rounded-xl p-4 outline-none"
+        >
+
+      </div>
+
+      <!-- LOCATION -->
+      <div class="grid grid-cols-2 gap-4">
+
+        <!-- LATITUDE -->
+        <div class="flex flex-col gap-2">
+
+          <label class="font-semibold dark:text-white">
+            Latitude
+          </label>
+
+          <input
+            id="editLatitude"
+            type="number"
+            step="any"
+            placeholder="Latitude"
+            class="border border-gray-300 dark:border-[#2d2d2d] bg-transparent rounded-xl p-4 outline-none"
+          >
+
+        </div>
+
+        <!-- LONGITUDE -->
+        <div class="flex flex-col gap-2">
+
+          <label class="font-semibold dark:text-white">
+            Longitude
+          </label>
+
+          <input
+            id="editLongitude"
+            type="number"
+            step="any"
+            placeholder="Longitude"
+            class="border border-gray-300 dark:border-[#2d2d2d] bg-transparent rounded-xl p-4 outline-none"
+          >
+
+        </div>
+
+      </div>
+
+      <!-- SAVE BUTTON -->
+      <button
+        id="saveProfileBtn"
+        class="bg-blue-600 hover:bg-blue-700 transition text-white py-4 rounded-2xl font-semibold"
+      >
+        Save Changes
+      </button>
+
+    </div>
+
+  </main>
+
+</body>
+
+</html>
