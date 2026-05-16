@@ -84,7 +84,7 @@ postBtn.addEventListener("click", async () => {
   // BACKEND SERVICE DETAILS
   const service_details = {
     category_name: category.value,
-    price: price.value,
+    price: price.value ? parseInt(price.value) : 0,
     availability: availability.value
   };
 

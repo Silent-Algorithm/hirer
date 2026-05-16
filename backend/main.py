@@ -4,7 +4,7 @@ import math
 import json
 from typing import Optional, List
 
-from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form
+from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
@@ -12,7 +12,9 @@ from sqlalchemy import or_
 from sqlalchemy.orm import joinedload
 from typing import Optional, List
 from sqlalchemy import or_
-
+import shutil
+import os
+import uuid
 import models
 import schemas
 from database import engine, get_db, Base
@@ -25,7 +27,11 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "*",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -285,10 +291,6 @@ def upload_profile_image(
     return {
         "image_url": current_user.profile_image
     }
-from fastapi import UploadFile, File, Depends
-import shutil
-import os
-import uuid
 
 @app.post("/users/profile-image")
 def upload_profile_image(
