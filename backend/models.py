@@ -63,7 +63,7 @@ class ServiceDetails(Base):
     post_id = Column(String, ForeignKey("posts.id"), unique=True)
     category_id = Column(String, ForeignKey("categories.id"))
 
-    price = Column(Integer)
+    price = Column(Integer, nullable=True)
     availability = Column(String)
 
     post = relationship("Post", back_populates="service")

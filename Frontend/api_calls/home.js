@@ -245,3 +245,31 @@ function showToast(message) {
 }
 
 loadData()
+
+
+// const API_BASE = "http://localhost:8000";
+
+// async function getPosts() {
+//   try {
+//     const response = await fetch(`${API_BASE}/posts`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         // add token if your API requires auth
+//         // "Authorization": `Bearer ${localStorage.getItem("token")}`
+//       }
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+
+//     const posts = await response.json();
+//     console.log("POSTS:", posts);
+
+//   } catch (error) {
+//     console.error("Error fetching posts:", error);
+//   }
+// }
+
+// getPosts(); 
