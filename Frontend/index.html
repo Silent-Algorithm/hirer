@@ -9,13 +9,13 @@
   <link rel="stylesheet" href="src/input.css">
 </head>
 
-<body class="bg-gray-100 dark:bg-dark-theme-bg dark:text-[#cbcbcb] transition duration-300 min-h-screen">
+<body class="bg-[#f5f7fb] dark:bg-dark-theme-bg dark:text-[#e5e7eb] transition duration-300 min-h-screen">
 
   <!-- Header -->
   <header class="sticky top-0 z-50">
-    
+
     <nav id="navbar"
-      class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] flex items-center justify-between border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-3 w-full bg-white">
+      class="bg-white/90 dark:bg-[#111318]/95 backdrop-blur-md dark:text-[#e5e7eb] flex items-center justify-between border-b border-gray-200 dark:border-[#23262d] px-[5%] py-4 w-full shadow-sm">
 
       <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-700 dark:text-blue-500">
         Hirer
@@ -24,7 +24,11 @@
       <div class="flex gap-7 md:gap-14 items-center">
 
         <!-- Language -->
-        <select class="outline-0 dark:bg-dark-theme-bg" name="language" id="language">
+        <select
+          class="outline-none bg-transparent border border-gray-300 dark:border-[#303540] rounded-lg px-3 py-1.5 dark:bg-[#151821]"
+          name="language"
+          id="language">
+
           <option value="en">English</option>
           <option value="fr">French</option>
         </select>
@@ -32,7 +36,7 @@
         <!-- Theme Toggle -->
         <svg
           id="toggleTheme"
-          class="fill-[#f6a84f] dark:fill-[#cbcbcb] h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 cursor-pointer"
+          class="fill-[#f6a84f] dark:fill-[#cbcbcb] h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 cursor-pointer transition"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 -960 960 960">
 
@@ -46,85 +50,86 @@
   <!-- Main -->
   <main class="flex items-center justify-center min-h-[80vh] px-4 py-10">
 
-    <div class="dark:border dark:border-gray-800 shadow-lg rounded-2xl w-full max-w-md p-6 bg-white dark:bg-dark-theme-bg">
+    <div class=" w-full max-w-md rounded-3xl border border-gray-200 dark:border-[#23262d] bg-white dark:bg-[#151821] p-8 shadow-[0_10px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
 
       <!-- Tabs -->
-      <div class="flex justify-around mb-6">
+      <div class="flex justify-around mb-8 border-b border-gray-200 dark:border-[#23262d] pb-2 ">
+
         <button id="loginTab"
-          class="font-semibold text-blue-600 border-b-2 border-blue-600 pb-1">
+          class="font-semibold text-blue-600 border-b-2 border-blue-600 pb-2 px-2 transition fon">
           Login
         </button>
 
         <button id="signupTab"
-          class="text-gray-500 dark:text-gray-300 pb-1">
+          class="text-gray-500 dark:text-gray-400 pb-2 px-2 transition font-extrabold">
           Sign Up
         </button>
       </div>
 
       <!-- LOGIN FORM -->
-      <form id="loginForm" class="space-y-4">
+      <form id="loginForm" class="space-y-5 ">
 
         <input
           id="loginEmail"
           type="email"
           placeholder="Email"
           required
-          class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 dark:bg-gray-700 outline-none"/>
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-[#303540] bg-white dark:bg-[#1c212b] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"/>
 
         <input
           id="loginPassword"
           type="password"
           placeholder="Password"
           required
-          class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 dark:bg-gray-700 outline-none"/>
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-[#303540] bg-white dark:bg-[#1c212b] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"/>
 
         <button
           type="submit"
-          class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+          class="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 active:scale-[0.99] transition">
           Login
         </button>
 
-        <p class="text-sm text-center text-gray-500 dark:text-gray-400">
+        <p class="text-sm text-center text-gray-500 dark:text-gray-400 pt-2">
           Don't have an account?
-          <span id="goSignup" class="text-blue-600 cursor-pointer">
+          <span id="goSignup" class="text-blue-600 hover:text-blue-700 font-medium cursor-pointer transition">
             Sign up
           </span>
         </p>
       </form>
 
       <!-- SIGNUP FORM -->
-      <form id="signupForm" class="space-y-4 hidden">
+      <form id="signupForm" class="space-y-5 hidden">
 
         <input
           id="signupName"
           type="text"
           placeholder="Full Name"
           required
-          class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 dark:bg-gray-700 outline-none"/>
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-[#303540] bg-white dark:bg-[#1c212b] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"/>
 
         <input
           id="signupEmail"
           type="email"
           placeholder="Email"
           required
-          class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 dark:bg-gray-700 outline-none"/>
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-[#303540] bg-white dark:bg-[#1c212b] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"/>
 
         <input
           id="signupPassword"
           type="password"
           placeholder="Password"
           required
-          class="w-full px-4 py-2 rounded-lg border dark:border-gray-600 dark:bg-gray-700 outline-none"/>
+          class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-[#303540] bg-white dark:bg-[#1c212b] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"/>
 
         <button
           type="submit"
-          class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
+          class="w-full bg-green-600 text-white py-3 rounded-xl font-medium hover:bg-green-700 active:scale-[0.99] transition">
           Sign Up
         </button>
 
-        <p class="text-sm text-center text-gray-500 dark:text-gray-400">
+        <p class="text-sm text-center text-gray-500 dark:text-gray-400 pt-2">
           Already have an account?
-          <span id="goLogin" class="text-blue-600 cursor-pointer">
+          <span id="goLogin" class="text-blue-600 hover:text-blue-700 font-medium cursor-pointer transition">
             Login
           </span>
         </p>

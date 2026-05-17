@@ -23,6 +23,7 @@ class User(Base):
 
     latitude = Column(Float)
     longitude = Column(Float)
+    location_name = Column(String, nullable=True)
 
     skills = Column(Text)
     availability = Column(String)
@@ -47,6 +48,7 @@ class Post(Base):
 
     user_id = Column(String, ForeignKey("users.id"))
     type = Column(String, default="service", nullable=False)
+    
 
     content = Column(Text)
     image_url = Column(Text)
