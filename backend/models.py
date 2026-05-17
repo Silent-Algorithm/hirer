@@ -23,6 +23,7 @@ class User(Base):
 
     latitude = Column(Float)
     longitude = Column(Float)
+    location_name = Column(String, nullable=True)
 
     skills = Column(Text)
     availability = Column(String)
