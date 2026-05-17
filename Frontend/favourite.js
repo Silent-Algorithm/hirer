@@ -123,7 +123,10 @@ function buildCard(item) {
                     <h3 class="text-2xl font-extrabold text-blue-600">$45/hour</h3>
                 </div>
 
-                <a href="${item.user.whatsapp_link}">
+                ${item.user.whatsapp_link
+                    ? `<a href="${item.user.whatsapp_link}" target="_blank" rel="noopener noreferrer">`
+                    : `<a href="#" class="no-whatsapp-link" onclick="event.preventDefault(); alert('This worker has not added their WhatsApp link yet.')">`
+                }
                     <button class="
                         bg-blue-600 hover:bg-blue-700
                         text-white px-5 py-2.5 rounded-full
