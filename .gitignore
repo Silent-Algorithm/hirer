@@ -1,4 +1,10 @@
 __pycache__/
 *.pyc
 hirer.db
+<<<<<<< HEAD
 __pycache__/
+=======
+hirer.db
+>>>>>>> ab5d6e7 (ignore any db file)
+*.db
+backend/hirer.db
