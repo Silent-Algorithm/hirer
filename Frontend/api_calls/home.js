@@ -60,6 +60,7 @@ async function loadData() {
 
         const card = document.createElement("div")
         card.className = `
+<<<<<<< HEAD
             bg-white dark:bg-dark-theme-bg
             border border-[#e5e5e5]
             dark:border-gray-800
@@ -72,6 +73,14 @@ async function loadData() {
 
             flex flex-col
             h-[520px]
+=======
+            w-full max-w-[500px]
+            bg-white dark:bg-[#161616]
+            border border-[#e5e5e5] dark:border-[#2f2f2f]
+            rounded-2xl overflow-hidden
+            shadow-sm hover:shadow-xl
+            transition-all duration-300
+>>>>>>> 887177e (Did a few changes to home, toggle menu and favourite pages.)
         `
 
         card.innerHTML = `
@@ -179,7 +188,10 @@ async function loadData() {
                         </h3>
                     </div>
 
-                    <a href="${item.user.whatsapp_link}">
+                    ${item.user.whatsapp_link
+                        ? `<a href="${item.user.whatsapp_link}" target="_blank" rel="noopener noreferrer">`
+                        : `<a href="#" class="no-whatsapp-link" onclick="event.preventDefault(); alert('This worker has not added their WhatsApp link yet.')">`
+                    }
                         <button class="
                             bg-blue-600 hover:bg-blue-700
                             text-white px-5 py-2.5 rounded-full
