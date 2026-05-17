@@ -140,43 +140,31 @@
       </div>
 
       <!-- LOCATION -->
-      <div class="grid grid-cols-2 gap-4">
+<!-- LOCATION -->
+<div class="flex flex-col gap-4">
 
-        <!-- LATITUDE -->
-        <div class="flex flex-col gap-2">
+  <label class="flex items-center gap-3 dark:text-white cursor-pointer">
 
-          <label class="font-semibold dark:text-white">
-            Latitude
-          </label>
+    <input
+      type="checkbox"
+      id="useCurrentLocation"
+      class="h-4 w-4"
+    >
 
-          <input
-            id="editLatitude"
-            type="number"
-            step="any"
-            placeholder="Latitude"
-            class="border border-gray-300 dark:border-[#2d2d2d] bg-transparent rounded-xl p-4 outline-none"
-          >
+    <span class="font-semibold">
+      Use current location
+    </span>
 
-        </div>
+  </label>
 
-        <!-- LONGITUDE -->
-        <div class="flex flex-col gap-2">
+  <input
+    type="text"
+    id="locationSearch"
+    placeholder="Enter city or location"
+    class="border border-gray-300 dark:border-[#2d2d2d] bg-transparent rounded-xl p-4 outline-none"
+  >
 
-          <label class="font-semibold dark:text-white">
-            Longitude
-          </label>
-
-          <input
-            id="editLongitude"
-            type="number"
-            step="any"
-            placeholder="Longitude"
-            class="border border-gray-300 dark:border-[#2d2d2d] bg-transparent rounded-xl p-4 outline-none"
-          >
-
-        </div>
-
-      </div>
+</div>
 
       <!-- SAVE BUTTON -->
       <button

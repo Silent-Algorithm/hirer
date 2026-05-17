@@ -48,6 +48,7 @@ class Post(Base):
 
     user_id = Column(String, ForeignKey("users.id"))
     type = Column(String, default="service", nullable=False)
+    
 
     content = Column(Text)
     image_url = Column(Text)

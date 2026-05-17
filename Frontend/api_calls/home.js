@@ -37,7 +37,47 @@ function toggleFavourite(item) {
         favs.splice(idx, 1)
     }
     saveFavourites(favs)
-    return idx === -1   // true = just added, false = just removed
+    return idx === -1
+}
+
+// ── USER LOCATION + DISTANCE LOGIC (ADDED) ─────────────────────────────────
+
+let userLat = null
+let userLon = null
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371
+
+    const dLat = (lat2 - lat1) * Math.PI / 180
+    const dLon = (lon2 - lon1) * Math.PI / 180
+
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2)
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+    return R * c
+}
+
+function getUserLocation() {
+    if (!navigator.geolocation) {
+        loadData()
+        return
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            userLat = pos.coords.latitude
+            userLon = pos.coords.longitude
+            loadData()
+        },
+        () => {
+            loadData()
+        }
+    )
 }
 
 // ── Render ──────────────────────────────────────────────────────────────────
@@ -58,9 +98,30 @@ async function loadData() {
 
         const saved = isFavourited(item.id)
 
+// ✅ DISTANCE CALC (FIXED)
+
+let distanceText = "Location unavailable"
+
+if (
+    typeof userLat === "number" &&
+    typeof userLon === "number" &&
+    typeof item.user?.latitude === "number" &&
+    typeof item.user?.longitude === "number"
+) {
+    const dist = calculateDistance(
+        userLat,
+        userLon,
+        item.user.latitude,
+        item.user.longitude
+    )
+
+    if (!Number.isNaN(dist)) {
+        distanceText = `${dist.toFixed(1)} km away`
+    }
+}
+
         const card = document.createElement("div")
         card.className = `
-<<<<<<< HEAD
             bg-white dark:bg-dark-theme-bg
             border border-[#e5e5e5]
             dark:border-gray-800
@@ -73,14 +134,6 @@ async function loadData() {
 
             flex flex-col
             h-[520px]
-=======
-            w-full max-w-[500px]
-            bg-white dark:bg-[#161616]
-            border border-[#e5e5e5] dark:border-[#2f2f2f]
-            rounded-2xl overflow-hidden
-            shadow-sm hover:shadow-xl
-            transition-all duration-300
->>>>>>> 887177e (Did a few changes to home, toggle menu and favourite pages.)
         `
 
         card.innerHTML = `
@@ -97,7 +150,18 @@ async function loadData() {
                             ${item.user.name}
                         </h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400">
-                            0.8km • ${item.user.skills}
+                            ${item.user.location_name
+    ? (() => {
+        const parts = item.user.location_name.split(",").map(p => p.trim())
+
+        if (parts.length >= 2) {
+            return `${parts[0]}, ${parts[parts.length - 1]}`
+        }
+
+        return item.user.location_name
+    })()
+    : "Location unavailable"
+} 
                         </p>
                     </div>
                 </div>
@@ -114,28 +178,26 @@ async function loadData() {
                 <img 
                     class="w-full h-full object-cover hover:scale-105 transition duration-500"
                     src="${BASE_URL + item.image_url}" 
-                    alt=""
+                    alt="profile_image"
+                    id = "profile_image"
                 >
             </div>
 
             <!-- Action Icons -->
             <div class="flex justify-between items-center px-4 pt-4">
                 <div class="flex gap-5">
-                    <!-- favorite/like -->
                     <button class="hover:scale-110 transition">
                         <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
                             <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
                         </svg>
                     </button>
 
-                    <!-- message -->
                     <button class="hover:scale-110 transition">
                         <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
                             <path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z"/>
                         </svg>
                     </button>
 
-                    <!-- share -->
                     <button class="hover:scale-110 transition">
                         <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
                             <path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164Z"/>
@@ -143,7 +205,6 @@ async function loadData() {
                     </button>
                 </div>
 
-                <!-- ── Bookmark button ── -->
                 <button
                     class="bookmarkBtn hover:scale-110 transition"
                     data-id="${item.id}"
@@ -159,7 +220,6 @@ async function loadData() {
                         fill="${saved ? '#2563eb' : 'currentColor'}"
                         style="color: ${saved ? '#2563eb' : 'black'}"
                     >
-                        <!-- filled when saved, outlined when not -->
                         ${saved
                             ? `<path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z"/>`
                             : `<path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/>`
@@ -169,13 +229,13 @@ async function loadData() {
             </div>
 
             <!-- Content -->
-            
             <div class="p-4">
-              <a href = "/profile.html"> 
+              <a href="/profile.html"> 
                 <a class="font-bold text-lg dark:text-white">
                     ${item.service.category.name}
                 </a>
               </a>
+
                 <p class="text-gray-600 dark:text-gray-400 mt-1">
                     ${item.content}
                 </p>
@@ -192,59 +252,32 @@ async function loadData() {
         item.user.whatsapp_link
             ? `
                 <a href="https://chat.whatsapp.com/...${item.user.whatsapp_link}" target="_blank">
-                    <button class="
-                        bg-blue-600 hover:bg-blue-700
-                        text-white px-5 py-2.5 rounded-full
-                        font-semibold transition shadow-md
-                        flex items-center gap-2
-                    ">
-                        <svg class="fill-[#efecec]" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px">
-                            <path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98Z"/>
-                        </svg>
-
-                        <span>Hire Now</span>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full font-semibold transition shadow-md flex items-center gap-2">
+                        Hire Now
                     </button>
                 </a>
             `
             : `
-                <button
-                    disabled
-                    class="
-                        bg-gray-400
-                        opacity-50
-                        cursor-not-allowed
-                        text-white px-5 py-2.5 rounded-full
-                        font-semibold shadow-md
-                        flex items-center gap-2
-                    "
-                >
-                    <svg class="fill-[#efecec]" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px">
-                        <path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98Z"/>
-                    </svg>
-
-                    <span>No WhatsApp Link</span>
+                <button disabled class="bg-gray-400 opacity-50 cursor-not-allowed text-white px-5 py-2.5 rounded-full font-semibold shadow-md flex items-center gap-2">
+                    No WhatsApp Link
                 </button>
             `
     }
                 </div>
             </div>
         `
-        
 
+        // ── Bookmark handler ───────────────────────────────────────────
 
-        // ── Bookmark click handler ───────────────────────────────────────────
         const bookmarkBtn = card.querySelector(".bookmarkBtn")
         const bookmarkIcon = card.querySelector(".bookmarkIcon")
-        
 
-        // Store full item data on the button for easy access
         bookmarkBtn.dataset.item = JSON.stringify(item)
 
         bookmarkBtn.addEventListener("click", () => {
             const postItem = JSON.parse(bookmarkBtn.dataset.item)
             const nowSaved = toggleFavourite(postItem)
 
-            // Swap icon between filled and outlined
             bookmarkIcon.innerHTML = nowSaved
                 ? `<path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z"/>`
                 : `<path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/>`
@@ -253,11 +286,9 @@ async function loadData() {
             bookmarkIcon.style.color = nowSaved ? "#2563eb" : "black"
             bookmarkBtn.title = nowSaved ? "Remove from favourites" : "Save to favourites"
 
-            // Bounce animation
             bookmarkBtn.classList.add("scale-125")
             setTimeout(() => bookmarkBtn.classList.remove("scale-125"), 150)
 
-            // Toast notification
             showToast(nowSaved ? "Saved to favourites" : "Removed from favourites")
         })
 
@@ -287,32 +318,30 @@ function showToast(message) {
     toast._timer = setTimeout(() => { toast.style.opacity = "0" }, 2000)
 }
 
-loadData()
+// START WITH USER LOCATION FIRST
+function init() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                userLat = pos.coords.latitude
+                userLon = pos.coords.longitude
+                loadData()
+            },
+            () => loadData()
+        )
+    } else {
+        loadData()
+    }
+}
+
+function image_fallback () {
+    if (!item.image_url) {
+        const profile_image_icon = document.getElementById("profile_image")
+        profile_image_icon.src = "svg"
+    } else {
+
+    }
+}
 
 
-// const API_BASE = "http://localhost:8000";
-
-// async function getPosts() {
-//   try {
-//     const response = await fetch(`${API_BASE}/posts`, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         // add token if your API requires auth
-//         // "Authorization": `Bearer ${localStorage.getItem("token")}`
-//       }
-//     });
-
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! status: ${response.status}`);
-//     }
-
-//     const posts = await response.json();
-//     console.log("POSTS:", posts);
-
-//   } catch (error) {
-//     console.error("Error fetching posts:", error);
-//   }
-// }
-
-// getPosts(); 
+init()

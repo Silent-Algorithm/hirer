@@ -1,9 +1,16 @@
 // =====================================
-// EDIT PROFILE JS
+// EDIT PROFILE JS (CLEAN VERSION)
 // =====================================
 
 const API_BASE = "http://localhost:8000";
 const token = localStorage.getItem("token");
+
+// =====================================
+// STATE
+// =====================================
+
+let currentLatitude = null;
+let currentLongitude = null;
 
 // =====================================
 // GET CURRENT USER
@@ -29,8 +36,7 @@ async function getCurrentUser() {
 }
 
 // =====================================
-// LOAD USER DATA INTO INPUTS
-// (removed backend location usage)
+// LOAD USER DATA
 // =====================================
 
 async function loadUserData() {
@@ -41,45 +47,50 @@ async function loadUserData() {
     document.getElementById("editBio").value = user?.bio || "";
     document.getElementById("editSkills").value = user?.skills || "";
     document.getElementById("editWhatsapp").value = user?.whatsapp_link || "";
+
+    const locationSearch = document.getElementById("locationSearch");
+    if (locationSearch) {
+      locationSearch.value = user?.location_name || "";
+    }
   } catch (err) {
     console.error(err);
   }
 }
 
 // =====================================
-// FRONTEND LOCATION HANDLING
+// LOCATION HANDLING
 // =====================================
 
-function getUserLocation() {
+async function getCurrentLocation(locationInput) {
   if (!navigator.geolocation) {
-    console.log("Geolocation not supported");
+    alert("Geolocation not supported");
     return;
   }
 
   navigator.geolocation.getCurrentPosition(
     async (position) => {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
+      currentLatitude = position.coords.latitude;
+      currentLongitude = position.coords.longitude;
 
-      console.log("Lat:", lat, "Lon:", lon);
+      console.log("Lat:", currentLatitude);
+      console.log("Lon:", currentLongitude);
 
-      const latInput = document.getElementById("editLatitude");
-      const lonInput = document.getElementById("editLongitude");
-
-      if (latInput) latInput.value = lat;
-      if (lonInput) lonInput.value = lon;
-
-      // optional reverse geocoding (console only)
       try {
-        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${currentLatitude}&lon=${currentLongitude}&format=json`;
+
         const res = await fetch(url);
 
-        if (res.ok) {
-          const data = await res.json();
-          console.log("Location:", data.display_name);
+        if (!res.ok) throw new Error("Reverse geocoding failed");
+
+        const data = await res.json();
+
+        if (locationInput) {
+          locationInput.value = data.display_name;
         }
+
+        console.log("Location:", data.display_name);
       } catch (err) {
-        console.error("Reverse geocode error:", err.message);
+        console.error(err);
       }
     },
     (error) => {
@@ -87,6 +98,30 @@ function getUserLocation() {
     }
   );
 }
+
+// =====================================
+// INIT AFTER DOM LOAD
+// =====================================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const useCurrentLocation = document.getElementById("useCurrentLocation");
+  const locationSearch = document.getElementById("locationSearch");
+
+  if (!useCurrentLocation || !locationSearch) return;
+
+  useCurrentLocation.addEventListener("change", () => {
+    if (useCurrentLocation.checked) {
+      locationSearch.disabled = true;
+      getCurrentLocation(locationSearch);
+    } else {
+      currentLatitude = null;
+      currentLongitude = null;
+
+      locationSearch.disabled = false;
+      locationSearch.value = "";
+    }
+  });
+});
 
 // =====================================
 // UPDATE PROFILE
@@ -172,25 +207,23 @@ const saveProfileBtn = document.getElementById("saveProfileBtn");
 
 if (saveProfileBtn) {
   saveProfileBtn.addEventListener("click", async () => {
+    const locationSearch = document.getElementById("locationSearch");
+    const useCurrentLocation = document.getElementById("useCurrentLocation");
+
     const updatedData = {
       name: document.getElementById("editName").value,
       bio: document.getElementById("editBio").value,
       skills: document.getElementById("editSkills").value,
       whatsapp_link: document.getElementById("editWhatsapp").value,
-
-      latitude: parseFloat(document.getElementById("editLatitude").value),
-      longitude: parseFloat(document.getElementById("editLongitude").value),
     };
 
-    Object.keys(updatedData).forEach((key) => {
-      if (
-        updatedData[key] === "" ||
-        updatedData[key] === null ||
-        Number.isNaN(updatedData[key])
-      ) {
-        delete updatedData[key];
-      }
-    });
+    if (useCurrentLocation?.checked) {
+      updatedData.latitude = currentLatitude;
+      updatedData.longitude = currentLongitude;
+      updatedData.location_name = locationSearch?.value;
+    } else if (locationSearch?.value?.trim()) {
+      updatedData.location_name = locationSearch.value.trim();
+    }
 
     await updateProfile(updatedData);
   });
@@ -201,4 +234,3 @@ if (saveProfileBtn) {
 // =====================================
 
 loadUserData();
-getUserLocation();

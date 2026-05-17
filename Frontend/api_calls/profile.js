@@ -75,52 +75,41 @@ function renderStars(avg) {
 // ===============================
 // LOCATION (FIXED FRONTEND ONLY)
 // ===============================
-function loadLocation() {
+async function loadLocation(userId) {
   const locationEl = document.querySelector(".text-gray-700");
 
   if (!locationEl) return;
 
-  if (!navigator.geolocation) {
-    locationEl.textContent = "Geolocation not supported";
-    return;
-  }
+  try {
+    const res = await fetch(`${API_BASE}/users/${userId}/location`);
 
-  navigator.geolocation.getCurrentPosition(
-    async (position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-
-      // store globally for save button
-      window.__lat = latitude;
-      window.__lon = longitude;
-
-      try {
-        const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
-
-        const res = await fetch(url);
-        const data = await res.json();
-
-        const place =
-          data.display_name ||
-          `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-
-        locationEl.textContent = place;
-
-      } catch (err) {
-        console.warn(err.message);
-        locationEl.textContent = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-      }
-    },
-    (error) => {
-      console.warn(error.message);
-      locationEl.textContent = "Location not available";
-    },
-    {
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 0,
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || "Failed to load location");
     }
-  );
+
+    const data = await res.json();
+
+    const raw = data.location;
+
+    if (!raw) {
+      locationEl.textContent =
+        `${data.latitude.toFixed(5)}, ${data.longitude.toFixed(5)}`;
+      return;
+    }
+
+    // ✅ format: first + last only
+    const parts = raw.split(",").map(p => p.trim());
+
+    locationEl.textContent =
+      parts.length >= 2
+        ? `${parts[0]}, ${parts[parts.length - 1]}`
+        : raw;
+
+  } catch (err) {
+    console.warn(err.message);
+    locationEl.textContent = "Location not available";
+  }
 }
 
 // ===============================
@@ -170,7 +159,7 @@ async function loadProfile() {
     }
 
     // LOCATION
-    loadLocation();
+    loadLocation(user.id);;
 
     // RATINGS
     const ratings = await getUserRatings(user.id);
