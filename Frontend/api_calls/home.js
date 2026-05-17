@@ -60,7 +60,6 @@ async function loadData() {
 
         const card = document.createElement("div")
         card.className = `
-<<<<<<< HEAD
             bg-white dark:bg-dark-theme-bg
             border border-[#e5e5e5]
             dark:border-gray-800
@@ -73,14 +72,6 @@ async function loadData() {
 
             flex flex-col
             h-[520px]
-=======
-            w-full max-w-[500px]
-            bg-white dark:bg-[#161616]
-            border border-[#e5e5e5] dark:border-[#2f2f2f]
-            rounded-2xl overflow-hidden
-            shadow-sm hover:shadow-xl
-            transition-all duration-300
->>>>>>> 887177e (Did a few changes to home, toggle menu and favourite pages.)
         `
 
         card.innerHTML = `
@@ -188,45 +179,54 @@ async function loadData() {
                         </h3>
                     </div>
 
-                    ${item.user.whatsapp_link
-                        ? `<a href="${item.user.whatsapp_link}" target="_blank" rel="noopener noreferrer">`
-                        : `<a href="#" class="no-whatsapp-link" onclick="event.preventDefault(); alert('This worker has not added their WhatsApp link yet.')">`
-                    }
-                        <button class="
-                            bg-blue-600 hover:bg-blue-700
-                            text-white px-5 py-2.5 rounded-full
-                            font-semibold transition shadow-md
-                            flex items-center gap-2
-                            id = "contact"
-                        ">
-                            <svg class="fill-[#efecec]" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px">
-                                <path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98Z"/>
-                            </svg>
-                            <span>Hire Now</span>
-                        </button>
-                    </a>
+                    ${
+        item.user.whatsapp_link
+            ? `
+                <a href="https://chat.whatsapp.com/...${item.user.whatsapp_link}" target="_blank">
+                    <button class="
+                        bg-blue-600 hover:bg-blue-700
+                        text-white px-5 py-2.5 rounded-full
+                        font-semibold transition shadow-md
+                        flex items-center gap-2
+                    ">
+                        <svg class="fill-[#efecec]" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px">
+                            <path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98Z"/>
+                        </svg>
+
+                        <span>Hire Now</span>
+                    </button>
+                </a>
+            `
+            : `
+                <button
+                    disabled
+                    class="
+                        bg-gray-400
+                        opacity-50
+                        cursor-not-allowed
+                        text-white px-5 py-2.5 rounded-full
+                        font-semibold shadow-md
+                        flex items-center gap-2
+                    "
+                >
+                    <svg class="fill-[#efecec]" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px">
+                        <path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98Z"/>
+                    </svg>
+
+                    <span>No WhatsApp Link</span>
+                </button>
+            `
+    }
                 </div>
             </div>
         `
-        // --- whatapp button --- 
-                function displayContactButton() {
-            const whatsapp = document.getElementById("contact");
-
-            if (item.user.whatsapp_link !== null) {
-                whatsapp.addEventListener("click", () => {
-                    window.open(item.user.whatsapp_link, "_blank");
-                });
-            } else {
-                whatsapp.disabled = true;
-                whatsapp.classList.add("opacity-50");
-            }
-        }
         
 
 
         // ── Bookmark click handler ───────────────────────────────────────────
         const bookmarkBtn = card.querySelector(".bookmarkBtn")
         const bookmarkIcon = card.querySelector(".bookmarkIcon")
+        
 
         // Store full item data on the button for easy access
         bookmarkBtn.dataset.item = JSON.stringify(item)
