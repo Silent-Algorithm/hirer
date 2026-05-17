@@ -33,15 +33,12 @@ async function loadData() {
         const card = document.createElement("div")
 
         card.className = `
-            bg-white dark:bg-dark
-            border border-[#e5e5e5]
-            dark:border-[#2f2f2f]
-            rounded-2xl
-            overflow-hidden
-            shadow-sm
-            hover:shadow-xl
-            transition-all
-            duration-300
+            w-full max-w-[500px]
+            bg-white dark:bg-[#161616]
+            border border-[#e5e5e5] dark:border-[#2f2f2f]
+            rounded-2xl overflow-hidden
+            shadow-sm hover:shadow-xl
+            transition-all duration-300
         `
 
         card.innerHTML = `
