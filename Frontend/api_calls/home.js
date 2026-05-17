@@ -69,6 +69,9 @@ async function loadData() {
             hover:shadow-xl
             transition-all
             duration-300
+
+            flex flex-col
+            h-[520px]
         `
 
         card.innerHTML = `
@@ -98,9 +101,9 @@ async function loadData() {
             </div>
 
             <!-- Post Image -->
-            <div class="overflow-hidden">
+            <div class="w-full h-[250px] overflow-hidden bg-gray-200">
                 <img 
-                    class="w-full h-[250px] object-cover hover:scale-105 transition duration-500"
+                    class="w-full h-full object-cover hover:scale-105 transition duration-500"
                     src="${BASE_URL + item.image_url}" 
                     alt=""
                 >
@@ -157,19 +160,22 @@ async function loadData() {
             </div>
 
             <!-- Content -->
+            
             <div class="p-4">
-                <h2 class="font-bold text-lg dark:text-white">
-                    ${item.type}
-                </h2>
+              <a href = "/profile.html"> 
+                <a class="font-bold text-lg dark:text-white">
+                    ${item.service.category.name}
+                </a>
+              </a>
                 <p class="text-gray-600 dark:text-gray-400 mt-1">
-                    ${item.user.name}
+                    ${item.content}
                 </p>
 
                 <div class="flex justify-between items-center mt-5">
                     <div>
                         <p class="text-sm text-gray-500">Starting from</p>
                         <h3 class="text-2xl font-extrabold text-blue-600">
-                            $45/hour
+                            ${item.service.price} CFA
                         </h3>
                     </div>
 
@@ -179,6 +185,7 @@ async function loadData() {
                             text-white px-5 py-2.5 rounded-full
                             font-semibold transition shadow-md
                             flex items-center gap-2
+                            id = "contact"
                         ">
                             <svg class="fill-[#efecec]" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px">
                                 <path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98Z"/>
@@ -189,6 +196,21 @@ async function loadData() {
                 </div>
             </div>
         `
+        // --- whatapp button --- 
+                function displayContactButton() {
+            const whatsapp = document.getElementById("contact");
+
+            if (item.user.whatsapp_link !== null) {
+                whatsapp.addEventListener("click", () => {
+                    window.open(item.user.whatsapp_link, "_blank");
+                });
+            } else {
+                whatsapp.disabled = true;
+                whatsapp.classList.add("opacity-50");
+            }
+        }
+        
+
 
         // ── Bookmark click handler ───────────────────────────────────────────
         const bookmarkBtn = card.querySelector(".bookmarkBtn")
