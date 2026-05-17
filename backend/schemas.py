@@ -42,6 +42,7 @@ class UserPublic(BaseModel):
     availability: Optional[str] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
+    location_name: Optional[str] = None
     whatsapp_link: Optional[str] = None
     is_verified: bool
 
@@ -61,6 +62,7 @@ class UserUpdate(BaseModel):
     availability: Optional[str] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
+    location_name: Optional[str] = None
     whatsapp_link: Optional[str] = None
 
 

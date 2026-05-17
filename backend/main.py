@@ -18,6 +18,7 @@ import uuid
 import models
 import schemas
 from database import engine, get_db, Base
+from models import User
 from auth import get_current_user
 from utils import hash_password, verify_password, create_access_token
 
@@ -129,6 +130,63 @@ def get_posts(
         posts.sort(key=dist)
 
     return posts[skip:skip + limit]
+
+
+#  get location name
+
+@app.get("/users/{user_id}/location")
+def get_user_location(user_id: str, db: Session = Depends(get_db)):
+
+    # get user from database
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # make sure lat/lon exist
+    if user.latitude is None or user.longitude is None:
+        raise HTTPException(status_code=400, detail="User location not found")
+
+    # if already stored, return immediately
+    if user.location_name:
+        return {
+            "latitude": user.latitude,
+            "longitude": user.longitude,
+            "location": user.location_name
+        }
+
+    # call reverse geocoding API
+    url = (
+        f"https://nominatim.openstreetmap.org/reverse"
+        f"?lat={user.latitude}&lon={user.longitude}&format=json"
+    )
+
+    response = requests.get(
+        url,
+        headers={
+            "User-Agent": "your-app-name"
+        }
+    )
+
+    if response.status_code != 200:
+        raise HTTPException(status_code=500, detail="Failed to fetch location")
+
+    data = response.json()
+
+    # extract location name
+    location_name = data.get("display_name")
+
+    # store in database
+    user.location_name = location_name
+
+    db.commit()
+    db.refresh(user)
+
+    return {
+        "latitude": user.latitude,
+        "longitude": user.longitude,
+        "location": user.location_name
+    }
 
 
 # -------------------------
