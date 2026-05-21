@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const skills = user.skills || 'No skills listed';
             
             const userCard = document.createElement('div');
-            userCard.className = "bg-gray-50 border border-[#e5e5e5db] p-4 flex justify-between w-full rounded-2xl dark:bg-dark-theme-bg dark:border-[#2e2d2d]";
+            userCard.className = "bg-gray-100 border border-[#e5e5e5db] p-4 flex justify-between w-full rounded-2xl dark:bg-dark-theme-bg dark:border-[#2e2d2d]";
             
             userCard.innerHTML = `
                 <div class="gap-4 flex">
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 </div>
                 <div class="flex items-center justify-center">
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-xl text-sm transition-colors duration-200" onclick="window.location.href='check_profile.html?id=${user.id}'">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-xl text-sm transition-colors duration-200" onclick="localStorage.setItem('profile_user_id', '${user.id}'); window.location.href='./check_profile.html'">
                         View Profile
                     </button>
                 </div>

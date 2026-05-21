@@ -123,7 +123,7 @@ if (
         const card = document.createElement("div")
         card.className = `
             w-full max-w-[500px]
-            bg-white dark:bg-[#161616]
+            bg-gray-100 dark:bg-[#161616]
             border border-[#e5e5e5] dark:border-[#2f2f2f]
             rounded-2xl overflow-hidden
             shadow-sm hover:shadow-xl

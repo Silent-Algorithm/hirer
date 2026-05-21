@@ -8,11 +8,11 @@
     <script defer src="create.js"></script>
     <title id="createIconPage">Hirer - Create Post</title>
 </head>
-<body class="overflow-x-hidden dark:bg-[#101010] dark:text-[#cbcbcb] transition duration-400">
+<body class="overflow-x-hidden dark:bg-dark-theme-bg dark:text-[#cbcbcb] transition duration-400">
     
   <header class=" sticky top-0 z-50">
       <!--navBar-->
-  <nav id="navbar" class="dark:bg-[#101010] dark:text-[#cbcbcb]  m-0 border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-4 sticky top-0 w-full  bg-white"> 
+  <nav id="navbar" class="dark:bg-dark-theme-bg dark:text-[#cbcbcb]  m-0 border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-4 sticky top-0 w-full  bg-white"> 
 <div class="flex items-center gap-x-[10%]">
 
 <h1 class="font-extrabold">New post</h1>
@@ -83,6 +83,12 @@
         <option>Cleaning</option>
         <option>Moving</option>
         <option>Plumbing</option>
+        <option>Capenter</option>
+        <option>Chef</option>
+        <option>Dry cleaner</option>
+        <option>farmer</option>
+        <option>Driver</option>
+        
 
       </select>
     </div>
@@ -102,28 +108,33 @@
           type="number">
       </div>
 
-      <!-- Availability -->
-      <div>
-        <h1 class="font-semibold pb-2 text-base sm:text-lg">Availability</h1>
+     <!-- Availability -->
+<div>
+  <h1 class="font-semibold pb-2 text-base sm:text-lg">Free Days?</h1>
 
-        <select
-          id="availability"
-          class="w-full p-2.5 border border-[#e5e5e5] dark:border-[#2a2a2a] bg-gray-50 dark:bg-[#101010] rounded-lg outline-none focus:border-blue-400">
+  <select
+    id="availability"
+    multiple
+    class="w-full p-2.5 border border-[#e5e5e5] dark:border-[#2a2a2a] bg-gray-50 dark:bg-[#101010] rounded-lg outline-none focus:border-blue-400">
 
-          <option>Available Today</option>
-          <option>Not Available Today</option>
+    <option value="monday">Monday</option>
+    <option value="tuesday">Tuesday</option>
+    <option value="wednesday">Wednesday</option>
+    <option value="thursday">Thursday</option>
+    <option value="friday">Friday</option>
+    <option value="saturday">Saturday</option>
+    <option value="sunday">Sunday</option>
 
-        </select>
+  </select>
 
-      </div>
-
+</div>
     </div>
   </section>
 
 
   <!-- LOCATION -->
   <section
-    class="dark:bg-[#101010] dark:text-[#cbcbcb] px-[4%] py-6 bg-white border-b border-[#e5e5e5] dark:border-[#202226]">
+    class="dark:bg-[#101010] dark:text-[#cbcbcb] px-[4%] py-6 bg-white border-b border-[#e5e5e5] dark:border-[#202226] hidden">
 
     <div class="flex items-center justify-between gap-4">
 

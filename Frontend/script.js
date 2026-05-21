@@ -171,3 +171,94 @@ if (accountProfile) {
         fullAccountProfile.style.display = 'none'
     })
 }
+// Language Translation Logic
+const translations = {
+    "en": {
+        "Home": "Home",
+        "Search": "Search",
+        "Favorite": "Favorite",
+        "Profile": "Profile",
+        "Login": "Login",
+        "Sign Up": "Sign Up",
+        "Contact Us": "Contact Us",
+        "New post": "New post",
+        "Share": "Share",
+        "Caption": "Caption",
+        "Service Category": "Service Category",
+        "Price Estimate": "Price Estimate",
+        "Availability": "Availability",
+        "Post": "Post",
+        "Edit Profile": "Edit Profile"
+    },
+    "fr": {
+        "Home": "Accueil",
+        "Search": "Recherche",
+        "Favorite": "Favoris",
+        "Profile": "Profil",
+        "Login": "Connexion",
+        "Sign Up": "S'inscrire",
+        "Contact Us": "Nous contacter",
+        "New post": "Nouveau post",
+        "Share": "Partager",
+        "Caption": "Légende",
+        "Service Category": "Catégorie de service",
+        "Price Estimate": "Estimation de prix",
+        "Availability": "Disponibilité",
+        "Post": "Publier",
+        "Edit Profile": "Modifier le profil"
+    }
+};
+
+function translatePage(lang) {
+    const dict = translations[lang] || translations["en"];
+    
+    // Helper to replace text for elements that match common nav/button terms
+    const elementsToTranslate = document.querySelectorAll('p, h1, button, a, label, span');
+    
+    elementsToTranslate.forEach(el => {
+        // Only translate if it has no children (just text) or is specifically targeted
+        if (el.childNodes.length === 1 && el.childNodes[0].nodeType === 3) {
+            const originalText = el.textContent.trim();
+            
+            // Reverse lookup: if current text is in either EN or FR dictionary, we map it to the target lang
+            let key = null;
+            for (const [k, v] of Object.entries(translations["en"])) {
+                if (v === originalText) { key = k; break; }
+            }
+            if (!key) {
+                for (const [k, v] of Object.entries(translations["fr"])) {
+                    if (v === originalText) { key = k; break; }
+                }
+            }
+            
+            if (key && dict[key]) {
+                el.textContent = dict[key];
+            }
+        }
+    });
+}
+
+const languageSelects = document.querySelectorAll('select[name="language"], select#language');
+
+languageSelects.forEach(select => {
+    // Set initial value
+    const savedLang = localStorage.getItem("language") || "en";
+    select.value = savedLang;
+    
+    select.addEventListener('change', (e) => {
+        const lang = e.target.value;
+        localStorage.setItem("language", lang);
+        translatePage(lang);
+        
+        // Sync all other language dropdowns if there are multiple
+        languageSelects.forEach(s => { s.value = lang; });
+    });
+});
+
+// Run once on load
+document.addEventListener("DOMContentLoaded", () => {
+    const savedLang = localStorage.getItem("language") || "en";
+    if (savedLang !== "en") {
+        translatePage(savedLang);
+    }
+});
