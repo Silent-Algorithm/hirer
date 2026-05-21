@@ -140,9 +140,12 @@ if (
                         alt=""
                     >
                     <div>
-                        <h3 class="font-bold text-[15px] dark:text-white">
-                            ${item.user.name}
-                        </h3>
+<h3 
+    class="font-bold text-[15px] dark:text-white cursor-pointer hover:underline"
+    onclick="openUserProfile('${item.user.id}')"
+>
+    ${item.user.name}
+</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400">
                             ${item.user.location_name
     ? (() => {
@@ -235,12 +238,12 @@ if (
                 </p>
 
                 <div class="flex justify-between items-center mt-5">
-                    <div>
-                        <p class="text-sm text-gray-500">Starting from</p>
-                        <h3 class="text-2xl font-extrabold text-blue-600">
-                            ${item.service.price} CFA
-                        </h3>
-                    </div>
+<div>
+    <p class="text-sm text-gray-500">Starting from</p>
+    <h3 class="text-2xl font-extrabold text-blue-600">
+        ${item.service.price === 0 ? "<span>price unavialable</span>" : `${item.service.price} CFA`}
+    </h3>
+</div>
 
                     ${
         item.user.whatsapp_link
@@ -335,6 +338,15 @@ function image_fallback () {
     } else {
 
     }
+}
+
+function openUserProfile(userId) {
+
+    // store clicked user's id
+    localStorage.setItem("profile_user_id", userId)
+
+    // go to profile page
+    window.location.href = "./check_profile.html"
 }
 
 
