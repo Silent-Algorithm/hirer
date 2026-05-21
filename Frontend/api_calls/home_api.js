@@ -85,12 +85,12 @@ async function loadData() {
 
                 <div class="flex gap-5">
 
-                    <!-- favorite -->
-                    <button class="hover:scale-110 transition">
-                        <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
-                            <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
-                        </svg>
-                    </button>
+               <!-- favorite -->
+<button class=" hover:scale-110 transition">
+    <svg class="likeBtn dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
+        <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
+    </svg>
+</button>
 
                     <!-- message -->
                     <button class="hover:scale-110 transition">
@@ -99,12 +99,12 @@ async function loadData() {
                         </svg>
                     </button>
 
-                    <!-- share -->
-                    <button class="hover:scale-110 transition">
-                        <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
-                            <path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164Z"/>
-                        </svg>
-                    </button>
+                    // <!-- share -->
+                    // <button class="hover:scale-110 transition">
+                    //     <svg class="dark:fill-[#cbcbcb]" xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black">
+                    //         <path d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164Z"/>
+                    //     </svg>
+                    // </button>
 
                 </div>
 
@@ -175,3 +175,20 @@ async function loadData() {
 }
 
 loadData()
+
+
+const likeButtons = document.querySelectorAll(".likeBtn");
+
+likeButtons.forEach(button => {
+    button.addEventListener("click", () => {
+
+        const svg = button.querySelector("svg");
+
+        if (svg.getAttribute("fill") === "red") {
+            svg.setAttribute("fill", "black");
+        } else {
+            svg.setAttribute("fill", "red");
+        }
+
+    });
+});
