@@ -347,6 +347,7 @@ function openUserProfile(userId) {
 
     // go to profile page
     window.location.href = "./check_profile.html"
+    console.log(window.user_checked)
 }
 
 
