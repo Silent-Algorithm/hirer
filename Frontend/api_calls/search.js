@@ -86,3 +86,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+function openUserProfile(userId) {
+
+    // store clicked user's id
+    localStorage.setItem("profile_user_id", userId)
+
+    // go to profile page
+    window.location.href = "./check_profile.html"
+    console.log(window.user_checked)
+}
+
