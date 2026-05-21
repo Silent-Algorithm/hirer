@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 </div>
                 <div class="flex items-center justify-center">
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-xl text-sm transition-colors duration-200" onclick="window.location.href='profile.html?id=${user.id}'">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-xl text-sm transition-colors duration-200" onclick="window.location.href='check_profile.html?id=${user.id}'">
                         View Profile
                     </button>
                 </div>
@@ -86,3 +86,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+function openUserProfile(userId) {
+
+    // store clicked user's id
+    localStorage.setItem("profile_user_id", userId)
+
+    // go to profile page
+    window.location.href = "./check_profile.html"
+    console.log(window.user_checked)
+}
+

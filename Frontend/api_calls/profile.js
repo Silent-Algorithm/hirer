@@ -85,6 +85,7 @@ async function loadLocation(userId) {
 
     if (!res.ok) {
       const err = await res.json();
+        console.log(err);
       throw new Error(err.detail || "Failed to load location");
     }
 

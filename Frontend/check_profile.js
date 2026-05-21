@@ -21,13 +21,17 @@ async function loadUserProfile() {
         // Profile image
         const profileImage = document.getElementById("accountProfile");
 
-        if (data.profile_image) {
-            profileImage.src = BASE_URL + data.profile_image;
+        if (profileImage) {
+            if (data.profile_image) {
+                profileImage.src = BASE_URL + data.profile_image;
+            }
         }
 
         // Name
-        document.getElementById("workerName").textContent =
-            data.name || "Unknown User";
+        const nameEl = document.getElementById("workerName");
+        if (nameEl) {
+            nameEl.textContent = data.name || "Unknown User";
+        }
 
         // Location
         let locationText = "Location unavailable";
@@ -38,66 +42,147 @@ async function loadUserProfile() {
                 .map(part => part.trim());
 
             if (parts.length >= 3) {
-                locationText = `${parts[2]}, ${parts[parts.length - 1]}`;
+                locationText = `${parts[0]}, ${parts[parts.length - 1]}`;
             } else {
                 locationText = data.location_name;
             }
         }
 
-        document.getElementById("workerLocation").textContent = locationText;
+        const locationEl = document.getElementById("workerLocation");
+        if (locationEl) {
+            locationEl.textContent = locationText;
+        }
 
         // About / Bio
-        document.getElementById("workerAbout").textContent =
-            data.bio || "No bio available";
+        const aboutEl = document.getElementById("workerAbout");
+        if (aboutEl) {
+            aboutEl.textContent = data.bio || "No bio available";
+        }
 
         // Skills
         const skillsContainer = document.getElementById("workerSkills");
-        skillsContainer.innerHTML = "";
 
-        if (data.skills && data.skills.trim() !== "") {
+        if (skillsContainer) {
+            skillsContainer.innerHTML = "";
 
-            const skills = data.skills
-                .split(",")
-                .map(skill => skill.trim());
+            if (data.skills && data.skills.trim() !== "") {
 
-            skills.forEach(skill => {
-                const badge = document.createElement("span");
+                const skills = data.skills
+                    .split(",")
+                    .map(skill => skill.trim());
 
-                badge.className =
-                    "bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm";
+                skills.forEach(skill => {
+                    const badge = document.createElement("span");
 
-                badge.textContent = skill;
+                    badge.className =
+                        "bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm";
 
-                skillsContainer.appendChild(badge);
-            });
+                    badge.textContent = skill;
 
-        } else {
+                    skillsContainer.appendChild(badge);
+                });
 
-            skillsContainer.innerHTML = `
-                <span class="text-gray-500">
-                    No skills listed
-                </span>
-            `;
+            } else {
+                skillsContainer.innerHTML = `
+                    <span class="text-gray-500">
+                        No skills listed
+                    </span>
+                `;
+            }
         }
 
         // Contact button
         const contactBtn = document.getElementById("workerContactBtn");
         const contactText = document.getElementById("workerContactText");
 
-        if (data.whatsapp_link) {
+        if (contactBtn && contactText) {
 
-            contactBtn.onclick = () => {
-                window.open(data.whatsapp_link, "_blank");
-            };
+            if (data.whatsapp_link) {
 
-            contactText.textContent = "Contact";
+                contactBtn.onclick = () => {
+                    window.open(data.whatsapp_link, "_blank");
+                };
 
-        } else {
+                contactText.textContent = "Contact";
 
-            contactBtn.disabled = true;
-            contactBtn.classList.add("opacity-50");
+            } else {
 
-            contactText.textContent = "No Contact";
+                contactBtn.disabled = true;
+                contactBtn.classList.add("opacity-50");
+
+                contactText.textContent = "No Contact";
+            }
+        }
+        //  GET THE POST OF A USER 
+                const posts = await getUserPosts(userId);
+
+                console.log(posts);
+
+
+
+
+        // ── RATING SECTION (FIXED) ─────────────────────────────
+
+        const ratingStars = document.getElementById("ratingStars");
+        const ratingValue = document.getElementById("ratingValue");
+
+
+        try {
+            const ratingsRes = await fetch(
+                `${BASE_URL}/users/${userId}/ratings`
+            );
+
+            if (!ratingsRes.ok) {
+                throw new Error(`Failed to load ratings (${ratingsRes.status})`);
+            }
+
+            const ratings = await ratingsRes.json();
+
+            let averageRating = 0;
+
+            if (ratings.length > 0) {
+                const total = ratings.reduce(
+                    (sum, item) => sum + Number(item.rating || 0),
+                    0
+                );
+
+                averageRating = total / ratings.length;
+            }
+
+            if (ratingStars) {
+                ratingStars.innerHTML = "";
+
+                const maxStars = 5;
+                const fullStars = Math.round(averageRating);
+
+                for (let i = 1; i <= maxStars; i++) {
+                    const star = document.createElement("span");
+
+                    star.textContent =
+                        i <= fullStars ? "★" : "☆";
+
+                    star.className =
+                        "text-yellow-400";
+
+                    ratingStars.appendChild(star);
+                }
+            }
+
+            if (ratingValue) {
+                ratingValue.textContent =
+                    `${averageRating.toFixed(1)} / 5`;
+            }
+
+        } catch (err) {
+            console.error("Rating error:", err);
+
+            if (ratingStars) {
+                ratingStars.innerHTML = "☆☆☆☆☆";
+            }
+
+            if (ratingValue) {
+                ratingValue.textContent = "0.0 / 5";
+            }
         }
 
     } catch (err) {
@@ -106,3 +191,76 @@ async function loadUserProfile() {
 }
 
 loadUserProfile();
+async function getUserPosts(userId) {
+    try {
+        const res = await fetch(
+            `${BASE_URL}/users/${userId}/posts`
+        );
+
+        if (!res.ok) {
+            throw new Error(`Failed to load posts (${res.status})`);
+        }
+
+        return await res.json();
+
+    } catch (err) {
+        console.error("Posts error:", err);
+        return [];
+    }
+}
+async function loadUserPosts() {
+    const grid = document.getElementById("userPostsGrid");
+
+    if (!grid) return;
+
+    try {
+        const res = await fetch(
+            `${BASE_URL}/users/${userId}/posts`
+        );
+
+        if (!res.ok) {
+            throw new Error(`HTTP Error ${res.status}`);
+        }
+
+        const posts = await res.json();
+
+        grid.innerHTML = "";
+
+        const imagePosts = posts.filter(
+            post => post.image_url
+        );
+
+        if (!imagePosts.length) {
+            grid.innerHTML = `
+                <p class="col-span-3 text-center text-gray-500 py-8">
+                    No posts yet
+                </p>
+            `;
+            return;
+        }
+
+        imagePosts.forEach(post => {
+            const img = document.createElement("img");
+
+            img.src = `${BASE_URL}${post.image_url}`;
+            img.alt = "Post";
+            img.loading = "lazy";
+
+            img.className = `
+                w-full
+                aspect-square
+                object-cover
+                cursor-pointer
+                hover:opacity-90
+                transition
+            `;
+
+            grid.appendChild(img);
+        });
+
+    } catch (err) {
+        console.error("Failed to load posts:", err);
+    }
+}
+
+loadUserPosts();

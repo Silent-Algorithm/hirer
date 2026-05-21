@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="./api_calls//rating.js"></script>
+    <title>Rate Worker</title>
+</head>
+
+<body class="overflow-x-hidden dark:bg-dark-theme-bg dark:text-[#cbcbcb] text-[11px] sm:text-base transition duration-400">
+
+<header class="sticky top-0 z-50">
+
+    <nav class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] border-b-2 dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-4 bg-white">
+        <div class="flex justify-between">
+            <h1 class="font-extrabold">Rate Worker</h1>
+        </div>
+    </nav>
+
+</header>
+
+<main>
+
+<section class="dark:bg-dark-theme-bg dark:text-[#cbcbcb] border-b dark:border-[#202226] border-[#e5e5e5db] px-[4%] py-5 bg-white">
+
+    <h2 class="font-bold text-lg mb-6">Rate this Worker</h2>
+
+    <div class="flex flex-col gap-6">
+
+        <!-- STAR RATING -->
+        <div>
+            <label class="block mb-3 font-medium">Rating</label>
+
+            <div id="starContainer" class="flex gap-2 text-3xl cursor-pointer select-none">
+                <span class="star" data-value="1">☆</span>
+                <span class="star" data-value="2">☆</span>
+                <span class="star" data-value="3">☆</span>
+                <span class="star" data-value="4">☆</span>
+                <span class="star" data-value="5">☆</span>
+            </div>
+
+            <input type="hidden" id="ratingInput" value="0">
+        </div>
+
+        <!-- COMMENT -->
+        <div>
+            <label for="commentInput" class="block mb-2 font-medium">Comment</label>
+
+            <textarea
+                id="commentInput"
+                rows="4"
+                placeholder="Share your experience..."
+                class="w-full border rounded-lg p-3 resize-none dark:bg-[#161616] dark:border-[#2f2f2f]"
+            ></textarea>
+        </div>
+
+        <!-- SUBMIT -->
+        <button
+            id="submitRatingBtn"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-full transition"
+        >
+            Submit Rating
+        </button>
+
+    </div>
+
+</section>
+
+</main>
+
+<script>
+const stars = document.querySelectorAll(".star");
+const ratingInput = document.getElementById("ratingInput");
+
+stars.forEach(star => {
+    star.addEventListener("click", () => {
+        const value = parseInt(star.dataset.value);
+        ratingInput.value = value;
+
+        stars.forEach(s => {
+            const v = parseInt(s.dataset.value);
+            s.textContent = v <= value ? "★" : "☆";
+        });
+    });
+});
+</script>
+
+</body>
+</html>
