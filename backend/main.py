@@ -234,6 +234,31 @@ def create_post(
 
 
 # -------------------------
+# GET ALL POSTS FROM A USER
+# -------------------------
+@app.get("/users/{user_id}/posts", response_model=List[schemas.PostResponse])
+def get_user_posts(
+    user_id: str,
+    db: Session = Depends(get_db)
+):
+    # check user exists
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # get posts with related data
+    posts = db.query(models.Post).options(
+        joinedload(models.Post.user),
+        joinedload(models.Post.service).joinedload(models.ServiceDetails.category)
+    ).filter(
+        models.Post.user_id == user_id
+    ).all()
+
+    return posts
+
+    
+# -------------------------
 # AUTH
 # -------------------------
 @app.post("/auth/register", response_model=schemas.TokenResponse)
@@ -324,31 +349,6 @@ def update_profile(
     
     return current_user
 
-@app.post("/users/profile-image")
-def upload_profile_image(
-    image: UploadFile = File(...),
-    db: Session = Depends(get_db),
-    current_user: models.User = Depends(get_current_user)
-):
-    upload_dir = "uploads"
-    os.makedirs(upload_dir, exist_ok=True)
-
-    file_ext = image.filename.split(".")[-1]
-    filename = f"{current_user.id}.{file_ext}"
-    file_path = os.path.join(upload_dir, filename)
-
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(image.file, buffer)
-
-    # save URL in DB
-    current_user.profile_image = f"/static/{filename}"
-
-    db.commit()
-    db.refresh(current_user)
-
-    return {
-        "image_url": current_user.profile_image
-    }
 
 @app.post("/users/profile-image")
 def upload_profile_image(
@@ -483,3 +483,5 @@ def get_ratings(user_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Worker not found")
         
     return db.query(models.Rating).filter(models.Rating.reviewed_user_id == user_id).all()
+
+
