@@ -253,6 +253,7 @@ async function loadUserPosts() {
                 cursor-pointer
                 hover:opacity-90
                 transition
+                rounded
             `;
 
             grid.appendChild(img);
