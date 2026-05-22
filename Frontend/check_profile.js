@@ -191,6 +191,7 @@ async function loadUserProfile() {
 }
 
 loadUserProfile();
+
 async function getUserPosts(userId) {
     try {
         const res = await fetch(
@@ -253,6 +254,7 @@ async function loadUserPosts() {
                 cursor-pointer
                 hover:opacity-90
                 transition
+                rounded
             `;
 
             grid.appendChild(img);

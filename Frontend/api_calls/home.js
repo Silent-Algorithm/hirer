@@ -123,7 +123,7 @@ if (
         const card = document.createElement("div")
         card.className = `
             w-full max-w-[500px]
-            bg-gray-100 dark:bg-[#161616]
+            bg-gray-100 dark:bg-dark-theme-fg
             border border-[#e5e5e5] dark:border-[#2f2f2f]
             rounded-2xl overflow-hidden
             shadow-sm hover:shadow-xl
@@ -352,3 +352,24 @@ function openUserProfile(userId) {
 
 
 init()
+
+const menuBtn = document.getElementById("menuBtn");
+const menuDropdown = document.getElementById("menuDropdown");
+
+menuBtn.addEventListener("click", () => {
+  menuDropdown.classList.toggle("hidden");
+});
+
+document.addEventListener("click", (e) => {
+  if (
+    !menuBtn.contains(e.target) &&
+    !menuDropdown.contains(e.target)
+  ) {
+    menuDropdown.classList.add("hidden");
+  }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  window.location.href = "./login.html";
+});
