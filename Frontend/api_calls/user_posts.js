@@ -84,7 +84,8 @@ async function renderCurrentUserPosts() {
 
         card.innerHTML = `
             <!-- Header -->
-            <div class="flex justify-between items-center p-4">
+            <div class="flex justify-between items-center p-4 relative">
+
                 <div class="flex items-center gap-3">
 
                     <img
@@ -116,6 +117,30 @@ async function renderCurrentUserPosts() {
                     </div>
 
                 </div>
+
+                <!-- 3 dots menu -->
+                <div class="relative">
+
+                    <button
+                        class="post-menu-btn text-xl px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                        data-post-id="${item.id}"
+                    >
+                        ⋮
+                    </button>
+
+                    <div
+                        class="post-dropdown hidden absolute right-0 top-10 bg-white dark:bg-dark-theme-fg border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 min-w-[140px]"
+                    >
+                        <button
+                            class="delete-post-btn w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            data-post-id="${item.id}"
+                        >
+                            Delete Post
+                        </button>
+                    </div>
+
+                </div>
+
             </div>
 
             <!-- Image -->
@@ -204,6 +229,46 @@ async function renderCurrentUserPosts() {
         `;
 
         container.appendChild(card);
+
+        // ===============================
+        // DROPDOWN LOGIC
+        // ===============================
+        const menuBtn = card.querySelector(".post-menu-btn");
+        const dropdown = card.querySelector(".post-dropdown");
+        const deleteBtn = card.querySelector(".delete-post-btn");
+
+        menuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", () => {
+            dropdown.classList.add("hidden");
+        });
+
+        deleteBtn.addEventListener("click", async () => {
+            const confirmed = confirm("Delete this post?");
+            if (!confirmed) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/posts/${item.id}`, {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to delete post");
+                }
+
+                card.remove();
+
+            } catch (err) {
+                console.error(err);
+                alert("Could not delete post.");
+            }
+        });
     });
 }
 
