@@ -191,6 +191,7 @@ async function loadUserProfile() {
 }
 
 loadUserProfile();
+
 async function getUserPosts(userId) {
     try {
         const res = await fetch(

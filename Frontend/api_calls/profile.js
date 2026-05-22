@@ -73,7 +73,7 @@ function renderStars(avg) {
 }
 
 // ===============================
-// LOCATION (FIXED FRONTEND ONLY)
+// LOCATION
 // ===============================
 async function loadLocation(userId) {
   const locationEl = document.querySelector(".text-gray-700");
@@ -85,12 +85,11 @@ async function loadLocation(userId) {
 
     if (!res.ok) {
       const err = await res.json();
-        console.log(err);
+      console.log(err);
       throw new Error(err.detail || "Failed to load location");
     }
 
     const data = await res.json();
-
     const raw = data.location;
 
     if (!raw) {
@@ -99,8 +98,7 @@ async function loadLocation(userId) {
       return;
     }
 
-    // ✅ format: first + last only
-    const parts = raw.split(",").map(p => p.trim());
+    const parts = raw.split(",").map((p) => p.trim());
 
     locationEl.textContent =
       parts.length >= 2
@@ -114,6 +112,73 @@ async function loadLocation(userId) {
 }
 
 // ===============================
+// USER POSTS
+// ===============================
+async function getUserPosts(userId) {
+  try {
+    const res = await fetch(`${API_BASE}/users/${userId}/posts`);
+
+    if (!res.ok) {
+      throw new Error(`Failed to load posts (${res.status})`);
+    }
+
+    return await res.json();
+
+  } catch (err) {
+    console.error("Posts error:", err);
+    return [];
+  }
+}
+
+// ===============================
+// RENDER POSTS GRID (Instagram Style)
+// ===============================
+async function renderUserPosts(userId) {
+  const grid = document.getElementById("userPostsGrid");
+
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  const posts = await getUserPosts(userId);
+
+  if (!posts.length) {
+    grid.innerHTML = `
+      <div class="col-span-3 text-center py-8 text-gray-500">
+        No posts yet
+      </div>
+    `;
+    return;
+  }
+
+  posts.forEach((post) => {
+    const item = document.createElement("div");
+
+    item.className =
+      "aspect-square overflow-hidden bg-gray-200 cursor-pointer rounded";
+
+    const imageUrl = post.image_url
+      ? `${API_BASE}${post.image_url}`
+      : "https://placehold.co/300x300?text=No+Image";
+
+    item.innerHTML = `
+      <img
+        src="${imageUrl}"
+        alt="Post"
+        class="w-full h-full object-cover hover:scale-105 transition duration-300 "
+      >
+    `;
+
+item.addEventListener("click", () => {
+  localStorage.setItem("post_id", post.id);
+  window.location.href = "./user_posts.html";
+});
+
+    grid.appendChild(item);
+  });
+}
+
+// ===============================
 // LOAD PROFILE
 // ===============================
 async function loadProfile() {
@@ -124,6 +189,7 @@ async function loadProfile() {
 
     // IMAGE
     const profileImg = document.querySelector("#accountProfile img");
+
     if (profileImg && user.profile_image) {
       profileImg.src = `${API_BASE}${user.profile_image}`;
     }
@@ -132,13 +198,19 @@ async function loadProfile() {
     const nameEl = document.querySelector(
       ".flex.flex-col.items-center.gap-y-2 h1"
     );
-    if (nameEl) nameEl.textContent = user.name || "No Name";
+
+    if (nameEl) {
+      nameEl.textContent = user.name || "No Name";
+    }
 
     // BIO
     const aboutText = document.querySelector(
       "section:nth-of-type(2) div div p"
     );
-    if (aboutText) aboutText.textContent = user.bio || "No bio added yet";
+
+    if (aboutText) {
+      aboutText.textContent = user.bio || "No bio added yet";
+    }
 
     // SKILLS
     const skillsContainer = document.querySelector(
@@ -160,12 +232,17 @@ async function loadProfile() {
     }
 
     // LOCATION
-    loadLocation(user.id);;
+    await loadLocation(user.id);
+
+    // POSTS GRID
+    await renderUserPosts(user.id);
 
     // RATINGS
     const ratings = await getUserRatings(user.id);
     const avg = calculateAverage(ratings);
+
     renderStars(avg);
+
   } catch (err) {
     console.error(err);
   }
@@ -198,6 +275,7 @@ async function updateProfile(updatedData) {
     alert("Profile updated successfully");
 
     loadProfile();
+
   } catch (err) {
     console.error(err);
     alert(err.message);
